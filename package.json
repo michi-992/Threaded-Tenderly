@@ -1,0 +1,18 @@
+{
+  "name": "ccl2_cw_ss23_cc221043",
+  "version": "1.0.0",
+  "description": "CCL2-CW SS23 project of Michaela Topalovic (cc221043)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.nwt.fhstp.ac.at/cc221043/ccl2_cw_ss23_cc221043.git"
+  },
+  "author": "MichaelaTop",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
