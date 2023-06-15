@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="icon" type="image/png" href="/icons/favicon.png">
+    <title>Threaded Tenderly</title>
+</head>
+
+<script>
+    function goBack() {
+        history.back();
+    }
+</script>
+<body>
+<%- include('topNav') %>
+<div class="max-w-3xl mx-auto relative mt-12" v>
+    <h1 class="text-5xl ml-6 mb-3">Your Products</h1>
+</div>
+<div class="max-w-3xl relative mx-auto grid grid-cols-4 gap-8">
+
+    <div class="shadow-lg rounded-lg bg-white flex flex-col justify-between border-grey-50 border text-center">
+            <img src="./uploads/<%= product1.picture %>.jpg"
+                 class="h-40 w-10/12 m-auto rounded-lg mt-2 object-cover">
+            <p class="text-lg font-semibold ml-2 text-center"><%= product1.productName %></p>
+        <p><%= product1.productPrice %> - <%= product1.article %> - <%= product1.productCraft %> - <%= product1.season %> - <%= product1.color %> - <%= product1.material %></p>
+
+        <div class="flex justify-between p-3">
+            <button class="bg-teal-600 text-white rounded-full py-1 px-3 font-semibold max-w-fit">Edit
+            </button>
+            <button class="bg-red-900 text-white rounded-full py-1 px-3 font-semibold max-w-fit">Delete
+            </button>
+        </div>
+    </div>
+</div>
+<div class="max-w-3xl mx-auto relative mt-12 mb-10">
+    <h1 class="text-5xl ml-6 ">Add New Product</h1>
+    <form action="/private/my_products" method="POST"
+          class="w-full grid grid-cols-2 gap-x-6 shadow-xl bg-white px-3 pt-3 rounded-xl border-grey-50 border">
+        <div class="flex flex-col">
+            <label for="productName" class="italic font-semibold ml-3">Product Name</label>
+            <input type="text" id="name" name="productName"
+                   class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-4">
+        </div>
+        <div class="flex flex-col">
+            <label for="article" class="italic font-semibold ml-3">Article</label>
+            <select id="cars" name="article" class="py-2 px-3 rounded-full">
+                <option value="">Choose the article type</option>
+                <option value="pants">pants</option>
+                <option value="top-wear">top-wear</option>
+                <option value="dress">dress</option>
+                <option value="skirt">skirt</option>
+                <option value="one-piece">one-piece</option>
+                <option value="jewellery">jewellery</option>
+                <option value="shoes">shoes</option>
+                <option value="other">other</option>
+            </select>
+        </div>
+
+        <div class="col-span-2 flex flex-col">
+            <label for="description" class="italic font-semibold ml-3">Description</label>
+            <input type="text" id="info" name="description"
+                   class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-4">
+        </div>
+
+        <div class="flex flex-col">
+            <label for="craft" class="italic font-semibold ml-3">Craft</label>
+            <div class="grid grid-cols-3 mb-2 ml-3">
+                <input type="hidden" name="craft" value="">
+                <div>
+                    <input type="radio" name="craft" value="sewing">
+                    <label for="sewing">sewing</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="knitting">
+                    <label for="knitting">knitting</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="crocheting">
+                    <label for="crocheting">crocheting</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="embroidery">
+                    <label for="embroidery">embroidery</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="tailoring">
+                    <label for="tailoring">tailoring</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="other">
+                    <label for="other">other</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col mb-2 ml-3">
+            <label for="season" class="italic font-semibold ml-3">Season</label>
+            <div class="grid grid-cols-3 mb-2 ml-3">
+                <input type="hidden" name="craft" value="">
+                <div>
+                    <div>
+                        <input type="radio" name="season" value="winter">
+                        <label for="winter">winter</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="season" value="spring">
+                        <label for="spring">spring</label>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <input type="radio" name="season" value="summer">
+                        <label for="summer">summer</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="season" value="autumn">
+                        <label for="autumn">autumn</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="flex flex-col" mb-2 ml-3>
+            <label for="color" class="italic font-semibold ml-3">Color</label>
+            <select id="color" name="color" class="py-2 px-3 rounded-full">
+                <option value="">Choose a color</option>
+                <option value="red">red</option>
+                <option value="blue">blue</option>
+                <option value="green">green</option>
+                <option value="yellow">yellow</option>
+                <option value="orange">orange</option>
+                <option value="purple">purple</option>
+                <option value="pink">pink</option>
+                <option value="black">black</option>
+                <option value="white">white</option>
+                <option value="white">other</option>
+            </select>
+        </div>
+
+        <div class="flex flex-col mb-2 ml-3">
+            <label for="material" class="italic font-semibold ml-3">Material</label>
+            <select id="cars" name="article" class="py-2 px-3 rounded-full">
+                <option value="">Choose the material</option>
+                <option value="cotton">cotton</option>
+                <option value="polyester">polyester</option>
+                <option value="silk">silk</option>
+                <option value="wool">wool</option>
+                <option value="denim">denim</option>
+                <option value="rayon">rayon</option>
+                <option value="linen">linen</option>
+                <option value="nylon">nylon</option>
+                <option value="spandex">spandex</option>
+                <option value="leather">leather</option>
+            </select>
+        </div>
+
+        <div class="flex flex-col mb-2">
+            <label for="sizing" class="italic font-semibold ml-3">Sizing</label>
+            <input type="text" name="sizing" class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-4">
+        </div>
+
+        <div class="flex flex-col mb-2">
+            <label for="price" class="italic font-semibold ml-3">Price</label>
+            <div class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-4">
+                <input type="number" name="priceBeforeDec" min="0" class="w-20">
+                .
+                <input type="number" name="priceAfterDec" min="0" class="w-20">
+                <select name="currency" class="px-2">
+                    <option value="€">€</option>
+                    <option value="$">$</option>
+                    <option value="£">£</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex flex-col mb-2 col-span-2 mx-auto">
+            <label for="picture" class="italic font-semibold ml-3">Picture</label>
+            <input type="file" name="picture">
+        </div>
+
+        <button type="submit" class="object-center col-span-2 mx-auto bg-teal-600 text-white font-semibold rounded-full w-fit py-1 px-5 my-3">Add
+            Product
+        </button>
+    </form>
+</div>
+
+
+</body>
+</html>

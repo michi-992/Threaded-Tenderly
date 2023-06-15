@@ -1,0 +1,31 @@
+<script>
+    function goToLogin() {
+        location.href = "/login";
+    }
+    function goToRegister() {
+        location.href = "/register";
+    }
+</script>
+    <div class="bg-emerald-100 w-full h-60 absolute top-14 z-0"></div>
+</div>
+<div class="relative">
+    <div class="flex content-center absolute top-3">
+        <img src="/icons/logo.png" class="h-8">
+        <div class="font-kaushanScript text-lg">Threaded Tenderly</div>
+    </div>
+    <nav class="grid grid-cols-6 max-w-5xl mx-auto gap-6 text-center z-1 align-middle">
+        <a href="./marketplace" class="py-4">Marketplace</a>
+        <a href="./login" class="py-4">About</a>
+        <a href="./register" class="py-4">Artisans</a>
+        <a href="./register" class="py-4 border-b-2 border-black font-semibold">My Products</a>
+        <a href="./register" class="py-4">My Bookmarks</a>
+        <div class="col-start-6 flex justify-end content-center my-auto"><a href=""><img src="/icons/shoppingCart.png" class="h-8"></a>
+        </div>
+    </nav>
+    <div class="absolute right-2 top-3">
+        <div class="col-start-6 flex justify-end content-center my-auto"><a href=""><img src="/icons/profile.png" class="h-8"></a>
+    </div>
+<!--        <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3" onclick="goToLogin()">Login</button>-->
+<!--        <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3" onclick="goToRegister()">Register</button>-->
+    </div>
+</div>

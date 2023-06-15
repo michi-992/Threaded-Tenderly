@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('htmlHead') %>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-emerald-50 to-emerald-200 max-w-3xl m-auto">
+<div class="flex justify-center content-center my-3">
+    <img src="./icons/logo.png" class="h-20">
+    <h1 class="font-bold text-6xl font-kaushanScript">ThreadedTenderly</h1>
+</div>
+
+<div class="grid grid-cols-6">
+    <div class="col-span-4 col-start-2">
+        <h1 class="text-5xl ml-5">Register</h1>
+        <form action="/register" method="POST"
+              class="w-full flex flex-col justify-center content-center bg-white px-3 pt-3 rounded-xl shadow-xl">
+
+            <div class="grid grid-cols-2 gap-x-4">
+                <label for="name" class="italic font-semibold ml-3">First Name</label>
+                <label for="surname" class="italic font-semibold ml-3">Last Name</label>
+                <input type="text" name="name" required class="w- border-emerald-200 border-4 rounded-full py-1 px-3 mb-2">
+                <input type="text" name="surname" required class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2">
+            </div>
+
+            <label for="username" class="italic font-semibold ml-3">Username</label>
+            <input type="text" name="username" required class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2">
+
+            <label for="email" class="italic font-semibold ml-3">E-Mail</label>
+            <input type="email" name="email" required class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2">
+
+            <label for="craft" class="italic font-semibold ml-3">Craft</label>
+            <div class="grid grid-cols-3 mb-2 ml-3">
+                <input type="hidden" name="craft" value="">
+                <div>
+                    <input type="radio" name="craft" value="sewing">
+                    <label for="sewing">sewing</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="knitting">
+                    <label for="knitting">knitting</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="crocheting">
+                    <label for="crocheting">crocheting</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="embroidery">
+                    <label for="embroidery">embroidery</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="tailoring">
+                    <label for="tailoring">tailoring</label>
+                </div>
+                <div>
+                    <input type="radio" name="craft" value="other">
+                    <label for="other">other</label>
+                </div>
+            </div>
+
+            <label for="incentive" class="italic font-semibold ml-3">I want to primarily</label>
+            <div class="grid grid-cols-3 mb-2 ml-3">
+                <input type="hidden" name="incentive" value="">
+                <div>
+                    <input type="radio" name="incentive" value="buy">
+                    <label for="buy">buy clothes</label>
+                </div>
+                <div>
+                    <input type="radio" name="incentive" value="sell">
+                    <label for="sell">sell clothes</label>
+                </div>
+
+            </div>
+
+            <label for="password" class="italic font-semibold ml-3">Password</label>
+            <input type="password" name="password" class="border-emerald-200 border-4 rounded-full p-1 mb-2">
+
+            <div class="grid grid-cols-3 mb-4">
+                <button type="submit" class="col-start-2 bg-teal-600 text-white font-semibold rounded-full py-1 px-3 my-3">
+                    Register
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
