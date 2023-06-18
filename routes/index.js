@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const userModel = require('../models/userModel');
 const userController = require('../controllers/userController');
+const productController = require('../controllers/productController');
+const authService = require('../services/authentication');
 
 router.get('/', (req, res) => {
     res.render('homepage');
@@ -123,44 +125,57 @@ const user = {
     'incentive': 'selling',
 }
 
-router.get('/marketplace', async (req, res) => {
-    res.render('marketplace', { products });
-})
+
+router.use(authService.authenticateJWT);
+router.get('/marketplace', productController.getProducts)
 
 
-router.get('/marketplace/:productID', async (req, res) => {
-    const id = (req.params.productID - 1)
-    const product = products[id];
-    res.render('product', { product });
-})
+router.get('/marketplace/:productID', productController.getProductByProductID)
 
-router.get('/login', (req, res) => {
-    res.render('login');
-})
+router.route('/login')
+    .get((req, res, next) => {
+        res.render('login');
+    })
+    .post((req, res, next) => {
+        userModel.getUsers()
+            .then((users) => {
+                authService.authenticateUser(req.body, users, res);
+            })
+            .catch((err) => {
+                res.sendStatus(500)
+            })
+    });
 
-router.post('/login', (req, res) => {
-    console.log(req.body);
-    res.render('login');
+router.get('/logout', (req, res, next) => {
+    res.cookie('accessToken', '', {maxAge: 0});
+    res.redirect('/')
 })
 
 router.get('/register', (req, res) => {
     res.render('register');
 })
 
-router.post('/register', (req, res) => {
-    console.log(req.body);
-    // userModel.createUser(req.body);
-});
+router.post('/register', userController.createUser);
 
+router.get('/123', authService.authenticateJWT, (req, res) => {
+    console.log('i am working now')
+})
+
+
+router.get('/users', userController.getUsers)
 
 router.get('/profile', (req, res) => {
-    res.render('profile', { user });
+    const currentUser = req.currentUser;
+    res.render('profile', { user, currentUser });
 })
 
 router.get('/myproducts', (req, res) => {
+    const currentUser = req.currentUser;
     const product1 = products[0];
     const product2 = products[1];
-    res.render('addProduct', { user, product1, product2 });
+    res.render('addProduct', { user, product1, product2, currentUser });
 })
+
+router.post('/myproducts', productController.createProduct)
 
 module.exports = router;

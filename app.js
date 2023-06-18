@@ -10,13 +10,18 @@ const ejs = require('ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+const cors = require('cors');
+app.use(cors());
+
+const fileUpload = require('express-fileupload');
+app.use(fileUpload({createParentPath: true}));
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({extended: true}))
 
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
-
 
 
 const indexRouter = require('./routes/index');

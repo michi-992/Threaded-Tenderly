@@ -4,14 +4,14 @@
     <%- include('htmlHead') %>
 </head>
 <body>
-<%- include('topNav') %>
+<%- include('topNav', { currentPage: 'marketplace' }) %>
 
 <div class="mb-10">
 <!--    <div class="bg-emerald-100 w-full h-60 absolute z-0"></div>-->
     <div class="max-w-5xl grid grid-cols-10 gap-6 mx-auto relative h-80 pt-10">
         <div class="col-span-8 col-start-2 relative">
-            <img src="./contentPictures/threadsCloseUp.png" class="w-8/12 h-full absolute z-1 rounded-l-lg">
-            <img src="./contentPictures/SlideShowForm.png" class="w-7/12 h-full absolute right-0 z-10 rounded-r-lg">
+            <img src="./contentPictures/threadsCloseUp.png" alt="" class="w-8/12 h-full absolute z-1 rounded-l-lg">
+            <img src="./contentPictures/SlideShowForm.png" alt="" class="w-7/12 h-full absolute right-0 z-10 rounded-r-lg">
             <p class="absolute right-8 top-16 z-20 text-5xl font-kaushanScript">Welcome</p>
             <p class="max-w-xs absolute right-8 top-48 z-20 text-xl text-right">
                 We currently have <%= products.length %> products for you to browse through.
@@ -51,13 +51,13 @@
     <% products.forEach(singleProduct => { %>
 
         <div class="shadow-lg bg-white rounded-lg flex flex-col justify-between border-grey-50 border">
-            <a href="./marketplace/<%= singleProduct.productID %>">
-                <img src="./uploads/<%= singleProduct.picture %>.jpg" class="h-40 w-10/12 m-auto rounded-lg mt-2 object-cover">
+            <a href="./marketplace/<%= singleProduct.id %>" alt="see product <%= singleProduct.productName %>">
+                <img src="./uploads/<%= singleProduct.picture %>.jpg" alt="<%= singleProduct.productName %>" class="h-40 w-10/12 m-auto rounded-lg mt-2 object-cover">
                 <p class="text-lg font-semibold ml-2 text-center"><%= singleProduct.productName %></p>
             </a>
             <div class="flex justify-between content-center my-2 mx-3">
-                <p class="text-lime-700"><%= singleProduct.productPrice %></p>
-                <button class="bg-teal-600 text-white rounded-full px-3 font-semibold max-w-fit">Buy
+                <p class="text-lime-700"><%= singleProduct.price %></p>
+                <button class="bg-teal-700 text-white rounded-full px-3 font-semibold max-w-fit">Buy
                 </button>
             </div>
 
