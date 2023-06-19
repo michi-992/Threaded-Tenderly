@@ -4,17 +4,23 @@
     <%- include('htmlHead') %>
 </head>
 <body>
-<%- include('topNav', { currentPage: 'marketplace' }) %>
+<%- include('components/topNav', { currentPage: 'marketplace' }) %>
 
 <div class="mb-10">
-<!--    <div class="bg-emerald-100 w-full h-60 absolute z-0"></div>-->
     <div class="max-w-5xl grid grid-cols-10 gap-6 mx-auto relative h-80 pt-10">
         <div class="col-span-8 col-start-2 relative">
             <img src="./contentPictures/threadsCloseUp.png" alt="" class="w-8/12 h-full absolute z-1 rounded-l-lg">
-            <img src="./contentPictures/SlideShowForm.png" alt="" class="w-7/12 h-full absolute right-0 z-10 rounded-r-lg">
-            <p class="absolute right-8 top-16 z-20 text-5xl font-kaushanScript">Welcome</p>
-            <p class="max-w-xs absolute right-8 top-48 z-20 text-xl text-right">
-                We currently have <%= products.length %> products for you to browse through.
+            <img src="./contentPictures/SlideShowForm.png" alt=""
+                 class="w-7/12 h-full absolute right-0 z-10 rounded-r-lg">
+            <div class="absolute right-8 top-14 z-20 text-right">
+                <p class="text-4xl font-kaushanScript">Welcome</p>
+                <% if (currentUser) { %>
+                    <p class="text-5xl font-kaushanScript"><%= currentUser.username %></p>
+                <% } %>
+
+            </div>
+            <p class="w-5/12 absolute right-8 top-48 z-20 lg:text-xl md:text-lg sm:text-regular text-right">
+                We currently have <%= products.length %> products available on our website.
             </p>
         </div>
     </div>
@@ -49,23 +55,23 @@
 
 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
     <% products.forEach(singleProduct => { %>
-
         <div class="shadow-lg bg-white rounded-lg flex flex-col justify-between border-grey-50 border">
             <a href="./marketplace/<%= singleProduct.id %>" alt="see product <%= singleProduct.productName %>">
-                <img src="./uploads/<%= singleProduct.picture %>.jpg" alt="<%= singleProduct.productName %>" class="h-40 w-10/12 m-auto rounded-lg mt-2 object-cover">
+                <img src="/uploads/<%= singleProduct.picture %>.jpg" alt="<%= singleProduct.productName %>"
+                     class="h-40 m-auto rounded-lg mt-2 object-center">
                 <p class="text-lg font-semibold ml-2 text-center"><%= singleProduct.productName %></p>
             </a>
             <div class="flex justify-between content-center my-2 mx-3">
-                <p class="text-lime-700"><%= singleProduct.price %></p>
-                <button class="bg-teal-700 text-white rounded-full px-3 font-semibold max-w-fit">Buy
-                </button>
+                <p class="text-lime-700"><%= singleProduct.price %>€</p>
+                <a href="mailto:<%= singleProduct.email %>?subject=Interest%20In%20<%= singleProduct.productName %>" class="bg-teal-700 text-white rounded-full px-3 font-semibold max-w-fit">contact
+                </a>
             </div>
-
         </div>
 
     <% }) %>
 
 </div>
+
 
 </body>
 </html>

@@ -25,9 +25,9 @@ app.use(cookieParser());
 
 
 const indexRouter = require('./routes/index');
-const privateRouter = require('./routes/private');
+const privateRouter = require('./routes/profile');
 app.use('/', indexRouter);
-app.use('/private', privateRouter);
+app.use('/profile', privateRouter);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

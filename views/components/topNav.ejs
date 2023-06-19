@@ -1,0 +1,51 @@
+<div class="bg-emerald-100 w-full h-60 absolute top-14 z-0"></div>
+</div>
+<header class="relative">
+    <a href="/marketplace">
+        <div class="flex content-center absolute top-3">
+
+            <img src="/icons/logo.png" alt="logo" class="h-8">
+            <div class="font-kaushanScript text-lg">Threaded Tenderly</div>
+
+        </div>
+    </a>
+    <nav class="grid grid-cols-6 max-w-5xl mx-auto gap-6 text-center align-middle">
+
+        <a href="/marketplace"
+           class="py-4 <%= currentPage === 'marketplace' ? 'border-b-2 border-black font-semibold' : '' %>">Marketplace</a>
+        <a href="" class="py-4 opacity-30 <%= currentPage === 'about' ? 'border-b-2 border-black font-semibold' : '' %>">About</a>
+        <a href=""
+           class="py-4 opacity-30 <%= currentPage === 'register' ? 'border-b-2 border-black font-semibold' : '' %>">Artisans</a>
+        <% if(currentUser) { %>
+            <a href="/profile/<%= currentUser.id %>/myproducts"
+               class="py-4 <%= currentPage === 'myproducts' ? 'border-b-2 border-black font-semibold' : '' %>">My
+                Products</a>
+            <a href="" class="py-4 opacity-30 <%= currentPage === 'bookmarks' ? 'border-b-2 border-black font-semibold' : '' %>">My
+                Bookmarks</a>
+        <% } %>
+
+        <div class="col-start-6 flex justify-end content-center my-auto">
+            <a href=""><img src="/icons/shoppingCart.png" class="h-8 opacity-30" alt="Shopping Cart"></a>
+        </div>
+    </nav>
+
+    <div class="absolute right-2 top-0 h-full flex align-middle">
+        <% if (currentUser) { %>
+
+            <div class="col-start-6 flex justify-end content-center my-auto">
+                <a href="/logout" class="mr-4 bg-teal-800 text-white font-semibold rounded-full py-1 px-3">Logout</a>
+                <a href="/profile/<%= currentUser.id %>">
+                    <img src="/icons/profile.png" alt="profile" class="h-8">
+                </a>
+            </div>
+        <% } else { %>
+            <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3 my-auto" onclick="goToLogin()">
+                Login
+            </button>
+            <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3 my-auto"
+                    onclick="goToRegister()">
+                Register
+            </button>
+        <% } %>
+    </div>
+</header>

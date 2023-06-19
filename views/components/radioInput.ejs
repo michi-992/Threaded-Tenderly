@@ -1,0 +1,10 @@
+<% options.forEach(option => { %>
+    <div>
+        <% if (typeof selectedValue === 'undefined' || option === selectedValue) { %>
+            <input type="radio" id="<%= option %>" name="<%= name %>" value="<%= option %>" checked>
+        <% } else { %>
+            <input type="radio" id="<%= option %>" name="<%= name %>" value="<%= option %>">
+        <% } %>
+        <label for="<%= option %>"><%= option %></label>
+    </div>
+<% }); %>

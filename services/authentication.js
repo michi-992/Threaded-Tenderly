@@ -8,11 +8,43 @@ async function authenticateUser({email, password}, users, res) {
     });
 
     if (user && await checkPassword(password, user.password)) {
-        const accessToken = jwt.sign({id: user.id, email: user.email, expiresIn: '2h' }, ACCESS_TOKEN_SECRET);
+        const accessToken = jwt.sign({
+                    id: user.id,
+                    username: user.username,
+                    email: user.email
+                }, ACCESS_TOKEN_SECRET, {
+                    expiresIn: 60
+                }
+            )
+        ;
         res.cookie('accessToken', accessToken);
-        res.redirect('/register');
+        res.redirect('/marketplace');
     } else {
         res.send('Username or password incorrect');
+    }
+}
+
+function checkForUser(req, res, next) {
+    const token = req.cookies['accessToken'];
+    let currentUser = undefined;
+    req.currentUser = currentUser;
+
+    if (token) {
+        jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+            if (err) {
+                req.currentUser = undefined;
+                console.log('hello');
+                console.log(req.currentUser);
+                return next();
+            } else {
+                currentUser = user;
+                req.currentUser = currentUser;
+                next();
+            }
+        });
+    } else {
+        req.currentUser = currentUser;
+        next();
     }
 }
 
@@ -27,23 +59,24 @@ function authenticateJWT(req, res, next) {
                 return res.sendStatus(403);
             }
             req.user = user;
-            currentUser = user;
+            currentUser = req.user;
             req.currentUser = currentUser;
-
             next();
-        });
+        })
     } else {
-        next();
+        req.currentUser = currentUser;
+        res.sendStatus(401);
     }
 }
 
 
-async function checkPassword(password, hash){
+async function checkPassword(password, hash) {
     let pw = await bcrypt.compare(password, hash)
     return pw;
 }
 
 module.exports = {
     authenticateUser,
+    checkForUser,
     authenticateJWT,
 }

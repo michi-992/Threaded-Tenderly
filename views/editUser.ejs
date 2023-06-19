@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('htmlHead') %>
+</head>
+
+<script>
+    function goBack() {
+        history.back();
+    }
+</script>
+<body>
+<%- include('components/topNav', { currentPage: "" }) %>
+<div class="relative max-w-3xl mx-auto relative mt-12">
+    <button onclick="goBack()" class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3">Go Back</button>
+        <h1 class="text-5xl ml-5">Edit your Profile</h1>
+        <form action="/profile/<%= userID %>" method="post" class="w-full flex flex-col justify-center content-center bg-white px-3 pt-3 rounded-xl shadow-xl">
+            <div class="grid grid-cols-2 gap-x-4">
+                <%- include('./components/inputLabel', { labelFor: 'name', content: 'First Name'}) %>
+                <%- include('./components/inputLabel', { labelFor: 'surname', content: 'Last Name'}) %>
+                <input type="text" id="name" name="name" required class="w- border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.name %>">
+                <input type="text" id="surname" name="surname" required class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.surname %>">
+            </div>
+
+            <%- include('./components/inputLabel', { labelFor: 'username', content: 'Username'}) %>
+            <input type="text" id="username" name="username" required class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.username %>">
+
+            <%- include('./components/inputLabel', { labelFor: 'email', content: 'E-Mail'}) %>
+            <input type="email" id="email" name="email" required class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.email %>">
+
+            <%- include('./components/inputLabel', { labelFor: 'craft', content: 'Preferred Craft'}) %>
+
+            <div class="grid grid-cols-3 mb-2 ml-3">
+                <%- include('./components/radioInput', { name: 'craft', options: ['sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: user.craft }) %>
+            </div>
+
+            <label for="incentive" class="italic font-semibold ml-3">I want to primarily</label>
+
+            <div class="grid grid-cols-3 mb-2 ml-3">
+                <%- include('./components/radioInput', { name: 'incentive', options: ['buy clothes', 'sell clothes'], selectedValue: user.incentive }) %>
+            </div>
+
+
+            <%- include('./components/inputLabel', { labelFor: 'password', content: 'Password'}) %>
+            <%- include('./components/passwordInput', { name: 'password' }) %>
+
+            <div class="grid grid-cols-3 mb-4">
+                <button type="submit" class="col-start-2 bg-teal-700 text-white font-semibold rounded-full py-1 px-3 my-3">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+</div>
+</body>
