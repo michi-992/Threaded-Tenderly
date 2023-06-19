@@ -1,9 +1,9 @@
 <select name="<%= name %>" id="<%= name %>" class="py-2 px-3 rounded-full">
     <% options.forEach(option => { %>
-        <% if(option === selectedValue) { %>
+        <% if(option === '') { %>
+            <option value="">Choose the <%= name %>...</option>
+        <% } else if(option === selectedValue) { %>
             <option value="<%= option %>" selected><%= option %></option>
-        <% } else if(option === '') { %>
-            <option value="" disabled>Choose the <%= name %>...</option>
         <% } else { %>
             <option value="<%= option %>"><%= option %></option>
         <% } %>

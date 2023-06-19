@@ -29,6 +29,11 @@ const privateRouter = require('./routes/profile');
 app.use('/', indexRouter);
 app.use('/profile', privateRouter);
 
+function errorHandler(err, req, res, next) {
+    res.render('404');
+}
+app.use(errorHandler);
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

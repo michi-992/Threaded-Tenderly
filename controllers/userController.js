@@ -8,58 +8,41 @@ async function getUsers(req, res, next) {
         const users = await userModel.getUsers();
         res.send(users);
     } catch (error) {
-        console.log(error);
-        res.status(404)
-        next(err);
+        next(error);
     }
 }
 
 async function getUserByID(req, res, next) {
     try {
         const currentUser = req.currentUser;
-        const userID = parseInt(req.params.userID);
-        const currentUserID = parseInt(req.currentUser.id);
-
-        if (userID !== currentUserID) {
-            res.render('404')
-        } else {
-            const user = await userModel.getUserByID(userID);
-            res.render('profile', {user, currentUser});
-        }
-    } catch
-        (error) {
-        console.log(error);
+        const user = await userModel.getUserByID(currentUser.id);
+        res.render('profile', {user, currentUser});
+    } catch (err) {
+        next(err);
     }
 }
 
 async function editUser(req, res, next) {
     try {
         const currentUser = req.currentUser;
-        const userID = parseInt(req.params.userID);
-        const currentUserID = parseInt(req.currentUser.id);
-        const user = await userModel.getUserByID(userID);
+        const user = await userModel.getUserByID(currentUser.id);
 
-        if (userID !== currentUserID) {
-            res.render('404')
-        } else {
-            res.render('editUser', {user, userID, currentUser})
-        }
+        res.render('editUser', {user, currentUser})
+
     } catch
         (error) {
-        res.status(404)
-        next(err);
+        next(error);
     }
 }
 
 async function updateUser(req, res, next) {
     try {
-        const userID = parseInt(req.params.userID)
         const currentUser = req.currentUser;
-        await userModel.updateUser(req.body, userID);
-        const user = await userModel.getUserByID(userID);
+        await userModel.updateUser(req.body, currentUser.id);
+        const user = await userModel.getUserByID(currentUser.id);
         res.render('profile', {user, currentUser});
     } catch (error) {
-        res.status(404)
+        next(error)
     }
 }
 
@@ -67,11 +50,10 @@ async function updateUser(req, res, next) {
 async function createUser(req, res, next) {
     try {
         const userData = req.body;
-        const user = await userModel.createUser(userData);
+        await userModel.createUser(userData);
         res.redirect('/login');
     } catch (error) {
-        res.status(404)
-        next(err);
+        next(error);
     }
 }
 
@@ -81,7 +63,6 @@ async function deleteUser(req, res, next) {
             const userID = req.params.userID;
             res.redirect(`/profile/${userID}/myproducts`);
         }).catch((err) => {
-        res.status(404)
         next(err);
     })
 }

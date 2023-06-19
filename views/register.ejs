@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <%- include('htmlHead') %>
+    <%- include('components/htmlHead') %>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-emerald-50 to-emerald-200 max-w-3xl m-auto">
 <div class="flex justify-center content-center my-3">
@@ -43,8 +43,8 @@
             <%- include('./components/inputLabel', { labelFor: 'password', content: 'Password'}) %>
             <%- include('./components/passwordInput', { name: 'password' }) %>
 
-            <div class="grid grid-cols-3 mb-4">
-                <button type="submit" class="col-start-2 bg-teal-700 text-white font-semibold rounded-full py-1 px-3 my-3">
+            <div class="grid grid-cols-3">
+                <button type="submit" class="col-start-2 bg-teal-800 text-white font-semibold rounded-full py-1 px-3 my-3">
                     Register
                 </button>
             </div>

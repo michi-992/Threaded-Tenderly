@@ -36,7 +36,6 @@ let createUser = (userData) => new Promise(async (resolve, reject) => {
 
     db.query(sql, function (err, result, fields) {
         if (err) {
-            console.log(err);
             reject(err);
         }
         const userId = result.insertId;

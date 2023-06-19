@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('htmlHead') %>
+    <%- include('components/htmlHead') %>
     <script>
-        console.log(<%= currentUser.id %>);
         function deleteProductRequest(id) {
             const userID = <%= currentUser.id %>;
             if (confirm('Are you sure you want to delete this user?')) {
-                fetch(`/profile/${userID}/myproducts/${id}/delete`, {method:'delete'})
+                fetch(`/profile/${userID}/myproducts/${id}/delete`, {method: 'delete'})
                     .then(() => {
-                        location.href=`/profile/${userID}/myproducts`;
+                        location.href = `/profile/${userID}/myproducts`;
                     })
             }
         }
@@ -29,11 +28,11 @@
     <div class="grid grid-cols-3 gap-3">
         <% products.forEach(product => { %>
             <div class="shadow-lg bg-white rounded-lg flex flex-col justify-between border-grey-50 border-2">
-                <a href="/marketplace/<%= product.id %>" alt="see product <%= product.productName %>">
-                    <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>"
-                         class="h-40 m-auto rounded-lg object-center">
-                    <p class="text-lg font-semibold ml-2 text-center"><%= product.productName %></p>
-                </a>
+
+                <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>"
+                     class="h-40 m-auto rounded-lg object-center">
+                <p class="text-lg font-semibold ml-2 text-center"><%= product.productName %></p>
+
                 <ul class="list-disc ml-6">
                     <li><i class="font-light">Article</i>: <%= product.article %></li>
                     <li><i class="font-light">Craft</i>: <%= product.productCraft %></li>
@@ -43,10 +42,14 @@
                     <li><i class="font-light">Season</i>: <%= product.season %></li>
                     <li><i class="font-light">Price</i>: <%= product.price %>€</li>
                 </ul>
-                <a href="./myproducts/<%= product.id %>/edit" class="bg-teal-700 text-white rounded-full px-3 font-semibold max-w-fit">Edit</a>
-                <button class="bg-red-900 text-white rounded-full px-3 font-semibold max-w-fit" onClick="deleteProductRequest(<%= product.id %>)">Delete</button>
+                <div class="flex justify-between items-center mx-4 my-2">
+                    <a href="./myproducts/<%= product.id %>/edit"
+                       class="bg-teal-700 text-white rounded-full px-3 py-1 font-semibold max-w-fit">Edit</a>
+                    <button class="bg-red-900 text-white rounded-full px-3 font-semibold max-w-fit py-1"
+                            onClick="deleteProductRequest(<%= product.id %>)">Delete
+                    </button>
+                </div>
             </div>
-
         <% }) %>
     </div>
 
@@ -72,14 +75,14 @@
 
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'craft', content: 'Craft'}) %>
-            <div class="grid grid-cols-3">
+            <div class="grid grid-cols-3 mb-2 ml-3">
                 <%- include('./components/radioInput', { name: 'craft', options: ['sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: '' }) %>
             </div>
         </div>
 
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'season', content: 'Season'}) %>
-            <div class="grid grid-cols-2">
+            <div class="grid grid-cols-3 mb-2 ml-3">
                 <%- include('./components/radioInput', { name: 'season', options: ['winter', 'summer', 'autumn', 'spring'], selectedValue: '' }) %>
             </div>
         </div>
@@ -87,7 +90,7 @@
 
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'color', content: 'Color'}) %>
-            <%- include('./components/selectInput', { name: 'color', options: ['', 'red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'black', 'white', 'other'], selectedValue: '' }) %>
+            <%- include('./components/selectInput', { name: 'color', options: ['', 'red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'beige', 'black', 'white', 'gray', 'other'], selectedValue: '' }) %>
         </div>
 
         <div class="flex flex-col">

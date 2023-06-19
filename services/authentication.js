@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const bcrypt = require('bcrypt');
+const productModel = require("../models/productModel");
 
 async function authenticateUser({email, password}, users, res) {
     const user = users.find(u => {
@@ -13,18 +14,18 @@ async function authenticateUser({email, password}, users, res) {
                     username: user.username,
                     email: user.email
                 }, ACCESS_TOKEN_SECRET, {
-                    expiresIn: 60
+                    expiresIn: '2h'
                 }
             )
         ;
         res.cookie('accessToken', accessToken);
         res.redirect('/marketplace');
     } else {
-        res.send('Username or password incorrect');
+        res.render('login', {message: 'Username or password false'});
     }
 }
 
-function checkForUser(req, res, next) {
+function checkIfLoggedIn(req, res, next) {
     const token = req.cookies['accessToken'];
     let currentUser = undefined;
     req.currentUser = currentUser;
@@ -32,10 +33,7 @@ function checkForUser(req, res, next) {
     if (token) {
         jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) {
-                req.currentUser = undefined;
-                console.log('hello');
-                console.log(req.currentUser);
-                return next();
+                next();
             } else {
                 currentUser = user;
                 req.currentUser = currentUser;
@@ -43,7 +41,6 @@ function checkForUser(req, res, next) {
             }
         });
     } else {
-        req.currentUser = currentUser;
         next();
     }
 }
@@ -52,21 +49,33 @@ function authenticateJWT(req, res, next) {
     const token = req.cookies['accessToken'];
     let currentUser = undefined;
     req.currentUser = currentUser;
-
+    const userID = parseInt(req.params.userID);
     if (token) {
         jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) {
-                return res.sendStatus(403);
+                res.redirect('/login');
+            } else {
+                req.user = user;
+                currentUser = req.user;
+                req.currentUser = currentUser;
+
+                const currentUserID = parseInt(req.currentUser.id);
+                console.log(userID)
+                console.log(currentUserID)
+                if (userID !== currentUserID) {
+                    console.log('404');
+                    res.render('404');
+                } else {
+                    console.log('next');
+                    next();
+                }
             }
-            req.user = user;
-            currentUser = req.user;
-            req.currentUser = currentUser;
-            next();
-        })
+        });
     } else {
-        req.currentUser = currentUser;
-        res.sendStatus(401);
+        res.redirect('/login');
     }
+
+
 }
 
 
@@ -77,6 +86,6 @@ async function checkPassword(password, hash) {
 
 module.exports = {
     authenticateUser,
-    checkForUser,
+    checkIfLoggedIn,
     authenticateJWT,
 }

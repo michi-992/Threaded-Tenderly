@@ -9,10 +9,9 @@ router.get('/', (req, res) => {
     res.render('homepage');
 })
 
-
 router.route('/login')
     .get((req, res, next) => {
-        res.render('login');
+        res.render('login', {message: ''});
     })
     .post((req, res, next) => {
         userModel.getUsers()
@@ -20,7 +19,7 @@ router.route('/login')
                 authService.authenticateUser(req.body, users, res);
             })
             .catch((err) => {
-                res.sendStatus(500)
+                next(err);
             })
     });
 
@@ -29,22 +28,16 @@ router.get('/logout', (req, res, next) => {
     res.redirect('/marketplace')
 })
 
-router.get('/register', (req, res) => {
-    res.render('register');
-})
-
-router.post('/register', userController.createUser);
-
-router.get('/about', (req, res) => {
-    const currentUser = req.currentUser;
-    res.render('about', { currentUser });
-})
+router.route('/register')
+    .get((req, res, next) => {
+        res.render('register');
+    })
+    .post(userController.createUser);
 
 
-router.use(authService.checkForUser);
+router.use(authService.checkIfLoggedIn);
 
 router.get('/marketplace', productController.getProducts)
-
 router.get('/marketplace/:productID', productController.getProductByProductID)
 
 module.exports = router;

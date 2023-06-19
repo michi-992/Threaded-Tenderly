@@ -1,12 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <%- include('htmlHead') %>
-    <script>
-        function goToHomepage() {
-            location.href = "/marketplace";
-        }
-    </script>
+    <%- include('components/htmlHead') %>
 </head>
 <body class="h-screen bg-gradient-to-b from-emerald-50 to-emerald-200 text-center m-auto flex flex-col justify-center">
 <div class="flex justify-center content-center mb-2">
@@ -18,8 +13,13 @@
     <p>Where artisans' handiwork meets sustainability and craftsmanship in fashion.</p>
     <p>Discover unique, handcrafted treasures today.</p>
 </div>
-<button class="bg-teal-800 text-white rounded-full py-1 px-3 my-3 w-fit mx-auto font-semibold" onclick="goToHomepage()">Shop Now</button>
+<button class="bg-teal-800 text-white rounded-full py-1 px-3 my-3 w-fit mx-auto font-semibold" onclick="goToMarketspace()">
+    Shop Now
+</button>
 <br>
-<a href="/login" class="underline text-indigo-900">Login</a>
+<div class="flex justify-center gap-4">
+    <a href="/login" class="underline text-indigo-900 inline">Login</a> / <a href="/register"
+                                                                              class="underline text-indigo-900">Register</a>
+</div>
 </body>
 </html>

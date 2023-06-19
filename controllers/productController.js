@@ -8,8 +8,6 @@ async function getProducts(req, res, next) {
         const products = await productModel.getProducts();
         res.render('marketplace', {products, currentUser});
     } catch (error) {
-        console.log(error);
-        res.status(404)
         next(err);
     }
 }
@@ -29,18 +27,11 @@ async function getProductByProductID(req, res, next) {
 
 async function getProductsByUserID(req, res, next) {
     try {
+        console.log('hello');
         const currentUser = req.currentUser;
-        const userID = parseInt(req.params.userID);
-        const currentUserID = parseInt(req.currentUser.id);
         const products = await productModel.getProductsByUserID(currentUser.id);
-        if (userID !== currentUserID) {
-            res.render('404')
-        } else {
-            res.render('userProducts', {currentUser, products})
-        }
-    } catch (error) {
-        console.log(error)
-        res.status(404)
+        res.render('userProducts', {currentUser, products});
+    } catch (err) {
         next(err);
     }
 }
@@ -75,11 +66,9 @@ async function editProduct(req, res, next) {
         product.digitsAfterDecimal = digitsAfterDecimal;
         product.digitsBeforeDecimal = digitsBeforeDecimal;
 
-        if (userID !== currentUserID) {
-            res.render('404')
-        } else {
-            res.render('editProduct', {product, productID, currentUser, userID})
-        }
+
+        res.render('editProduct', {product, productID, currentUser, userID})
+
     } catch
         (error) {
         res.status(404)
