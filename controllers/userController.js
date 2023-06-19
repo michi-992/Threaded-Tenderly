@@ -49,6 +49,7 @@ async function updateUser(req, res, next) {
 
 async function createUser(req, res, next) {
     try {
+        console.log(req.body);
         const userData = req.body;
         await userModel.createUser(userData);
         res.redirect('/login');

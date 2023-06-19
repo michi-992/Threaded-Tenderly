@@ -61,7 +61,7 @@
           class="w-full grid grid-cols-2 gap-x-6 shadow-xl bg-white px-3 pt-3 rounded-xl border-grey-50 border">
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'productName', content: 'Product Name'}) %>
-            <%- include('./components/textInput', { name: 'productName' }) %>
+            <input type="text" id="productName" name="productName" required class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-3">
         </div>
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'article', content: 'Article'}) %>
@@ -76,14 +76,14 @@
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'craft', content: 'Craft'}) %>
             <div class="grid grid-cols-3 mb-2 ml-3">
-                <%- include('./components/radioInput', { name: 'craft', options: ['sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: '' }) %>
+                <%- include('./components/radioInput', { name: 'craft', options: ['', 'sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: '' }) %>
             </div>
         </div>
 
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'season', content: 'Season'}) %>
             <div class="grid grid-cols-3 mb-2 ml-3">
-                <%- include('./components/radioInput', { name: 'season', options: ['winter', 'summer', 'autumn', 'spring'], selectedValue: '' }) %>
+                <%- include('./components/radioInput', { name: 'season', options: ['', 'winter', 'summer', 'autumn', 'spring'], selectedValue: '' }) %>
             </div>
         </div>
 
@@ -106,9 +106,9 @@
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'price', content: 'Price'}) %>
             <div class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-4">
-                <input type="number" id="priceBeforeDec" name="priceBeforeDec" min="0" class="w-14 border border-black">
+                <input type="number" id="priceBeforeDec" name="priceBeforeDec" min="0" class="w-14 border border-black" required>
                 .
-                <input type="number" id="priceAfterDec" name="priceAfterDec" min="0" class="w-14 border border-black">
+                <input type="number" id="priceAfterDec" name="priceAfterDec" min="0" class="w-14 border border-black" required>
                 €
             </div>
         </div>

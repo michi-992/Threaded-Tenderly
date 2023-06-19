@@ -41,7 +41,7 @@ async function createProduct(req, res, next) {
         const productData = req.body;
         const pictureData = req.files.picture;
         const userID = req.params.userID;
-
+console.log(productData);
 
         const currentUser = req.currentUser;
         await productModel.createProduct(productData, pictureData, currentUser);

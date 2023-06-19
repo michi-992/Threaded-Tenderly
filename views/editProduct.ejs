@@ -24,7 +24,7 @@
         </div>
         <div class="col-span-2 flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'description', content: 'Description'}) %>
-            <input type="text" id="description" name="description" required
+            <input type="text" id="description" name="description"
                    class="w- border-emerald-200 border-4 rounded-full py-1 px-3 mb-2"
                    value="<%= product.description %>">
         </div>
@@ -32,14 +32,14 @@
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'craft', content: 'Craft'}) %>
             <div class="grid grid-cols-3 mb-2 ml-3">
-                <%- include('./components/radioInput', { name: 'craft', options: ['sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: product.productCraft }) %>
+                <%- include('./components/radioInput', { name: 'craft', options: ['', 'sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: product.productCraft }) %>
             </div>
         </div>
 
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'season', content: 'Season'}) %>
             <div class="grid grid-cols-3 mb-2 ml-3">
-                <%- include('./components/radioInput', { name: 'season', options: ['winter', 'summer', 'autumn', 'spring'], selectedValue: product.season }) %>
+                <%- include('./components/radioInput', { name: 'season', options: ['', 'winter', 'summer', 'autumn', 'spring'], selectedValue: product.season }) %>
             </div>
         </div>
 
@@ -56,7 +56,7 @@
 
         <div class="flex flex-col">
             <%- include('./components/inputLabel', { labelFor: 'sizing', content: 'Sizing'}) %>
-            <input type="text" id="sizing" name="sizing" required
+            <input type="text" id="sizing" name="sizing"
                    class="w- border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= product.sizing %>">
         </div>
 

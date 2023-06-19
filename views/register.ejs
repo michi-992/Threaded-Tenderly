@@ -31,13 +31,13 @@
 
             <%- include('./components/inputLabel', { labelFor: 'craft', content: 'Preferred Craft'}) %>
             <div class="grid grid-cols-3 mb-2 ml-3">
-                <%- include('./components/radioInput', { name: 'craft', options: ['sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: '' }) %>
+                <%- include('./components/radioInput', { name: 'craft', options: ['', 'sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: '' }) %>
             </div>
 
 
             <label for="incentive" class="italic font-semibold ml-3">I want to primarily</label>
             <div class="grid grid-cols-3 mb-2 ml-3">
-                <%- include('./components/radioInput', { name: 'incentive', options: ['buy clothes', 'sell clothes'], selectedValue: '' }) %>
+                <%- include('./components/radioInput', { name: 'incentive', options: ['', 'buy clothes', 'sell clothes'], selectedValue: '' }) %>
             </div>
 
             <%- include('./components/inputLabel', { labelFor: 'password', content: 'Password'}) %>
