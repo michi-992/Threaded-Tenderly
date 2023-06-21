@@ -5,18 +5,46 @@ const userModel = require("../models/userModel");
 async function getProducts(req, res, next) {
     try {
         const currentUser = req.currentUser;
-        const products = await productModel.getProducts();
-        res.render('marketplace', {products, currentUser});
+        const currentUserID = req.currentUser ? currentUser.id : '';
+        const article = '';
+        const products = await productModel.getProducts(article, currentUserID);
+
+        res.render('marketplace', {products, currentUser, article });
     } catch (error) {
-        next(err);
+        console.log(error);
+        next(error);
     }
+}
+
+async function filterProducts(req, res, next) {
+    try {
+        const article = req.query.article; // Get the article from the query parameter
+        const currentUser = req.currentUser;
+        const currentUserID = req.currentUser ? currentUser.id : '';
+        const filteredProducts = await productModel.getProducts(article, currentUserID); // Pass the article to the model function
+        res.render('marketplace', { products: filteredProducts, currentUser, article });
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function getBookmarkedProducts(req, res, next) {
+    const currentUser = req.currentUser;
+    const products = await productModel.getBookmarkedProducts(currentUser.id);
+    res.render('userBookmarks', {currentUser, products});
 }
 
 async function getProductByProductID(req, res, next) {
     try {
         const currentUser = req.currentUser;
+        let currentUserID = '';
+        if(currentUser) {
+            currentUserID = currentUser.id;
+        }
+        console.log(currentUserID)
+
         const productID = req.params.productID
-        const product = await productModel.getProductByProductID(productID);
+        const product = await productModel.getProductByProductID(productID, currentUserID);
         res.render('product', {product, currentUser})
     } catch (error) {
         console.log(error);
@@ -27,7 +55,6 @@ async function getProductByProductID(req, res, next) {
 
 async function getProductsByUserID(req, res, next) {
     try {
-        console.log('hello');
         const currentUser = req.currentUser;
         const products = await productModel.getProductsByUserID(currentUser.id);
         res.render('userProducts', {currentUser, products});
@@ -41,7 +68,13 @@ async function createProduct(req, res, next) {
         const productData = req.body;
         const pictureData = req.files.picture;
         const userID = req.params.userID;
-console.log(productData);
+        if(productData.craft === undefined) {
+            productData.craft = '';
+        }
+        if(productData.season === undefined) {
+            productData.season = '';
+        }
+        console.log(productData);
 
         const currentUser = req.currentUser;
         await productModel.createProduct(productData, pictureData, currentUser);
@@ -59,7 +92,7 @@ async function editProduct(req, res, next) {
         const userID = parseInt(req.params.userID);
         const productID = parseInt(req.params.productID)
         const currentUserID = parseInt(req.currentUser.id);
-        const product = await productModel.getProductByProductID(productID);
+        const product = await productModel.getProductByProductID(productID, currentUser.id);
 
         const digitsBeforeDecimal = Math.floor(product.price);
         const digitsAfterDecimal = Math.floor((product.price - digitsBeforeDecimal) * 100);
@@ -82,6 +115,13 @@ async function updateProduct(req, res, next) {
         const userID = parseInt(req.params.userID);
         const currentUser = req.currentUser;
         let pictureData;
+        const productData = req.body;
+        if(productData.craft === undefined) {
+            productData.craft = '';
+        }
+        if(productData.season === undefined) {
+            productData.season = '';
+        }
 
         if (!req.files) {
             pictureData = null;
@@ -89,7 +129,7 @@ async function updateProduct(req, res, next) {
             pictureData = req.files.picture
         }
 
-        await productModel.updateProduct(req.body, productID, pictureData);
+        await productModel.updateProduct(productData, productID, pictureData);
         res.redirect(`/profile/${userID}/myproducts`);
     } catch (error) {
         res.status(404)
@@ -106,13 +146,38 @@ async function deleteProduct(req, res, next) {
     })
 }
 
+async function toggleBookmark(req, res, next) {
+    try {
+        const productId = req.params.productId;
+        const userId = req.currentUser.id;
+
+        // Check if the product is already bookmarked by the user
+        const isBookmarked = await productModel.isProductBookmarked(userId, productId);
+
+        if (isBookmarked) {
+            // If already bookmarked, remove the bookmark
+            await productModel.removeBookmark(userId, productId);
+        } else {
+            // If not bookmarked, add the bookmark
+            await productModel.addBookmark(userId, productId);
+        }
+
+        res.sendStatus(200);
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 module.exports = {
     getProducts,
+    filterProducts,
     getProductByProductID,
     getProductsByUserID,
+    getBookmarkedProducts,
     createProduct,
     editProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    toggleBookmark
 }

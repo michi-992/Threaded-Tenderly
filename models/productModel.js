@@ -3,43 +3,43 @@ const db = require('../services/database.js').config;
 const fs = require("fs");
 const uuid = require("uuid");
 
-let getProducts = (article = '') => new Promise((resolve, reject) => {
-    const sql = `
-    SELECT ccl2_products.*, ccl2_users.email
+let getProducts = (article = '', userId) => new Promise((resolve, reject) => {
+    let sql = `
+    SELECT ccl2_products.*, ccl2_users.email, COUNT(ccl2_bookmarks.product_id) AS isBookmarked
     FROM ccl2_products
-    JOIN ccl2_users ON ccl2_products.userID = ccl2_users.id`;
-    // let query = "SELECT * FROM ccl2_products";
-    // let values = [];
-    //
-    // if (article) {
-    //     query += " WHERE article = ?";
-    //     values = [article];
-    // }
-    //
-    // db.query(query, values, function (err, products, fields) {
-    //     if (err) {
-    //         reject(err);
-    //     } else {
-    //         resolve(products);
-    //     }
-    // });
-    db.query(sql, function (err, products, fields) {
+    JOIN ccl2_users ON ccl2_products.userID = ccl2_users.id
+    LEFT JOIN ccl2_bookmarks ON ccl2_products.id = ccl2_bookmarks.product_id AND ccl2_bookmarks.user_id = ?`;
+
+    const params = [userId];
+
+    if (article) {
+        sql += " WHERE article = ?";
+        params.push(article);
+    }
+
+    sql += ' GROUP BY ccl2_products.id';
+
+    db.query(sql, params, function (err, products, fields) {
         if (err) {
-            reject(err)
+            reject(err);
         } else {
             resolve(products);
         }
-    })
-})
+    });
+});
 
-let getProductByProductID = (productID) => new Promise((resolve, reject) => {
-    const sql = `
-    SELECT ccl2_products.*, ccl2_users.username, ccl2_users.email
-    FROM ccl2_products
-    JOIN ccl2_users ON ccl2_products.userID = ccl2_users.id
-    WHERE ccl2_products.id = ?;
-  `;
-    db.query(sql, [productID], function (err, result, fields) {
+let getProductByProductID = (productID, userID) => new Promise((resolve, reject) => {
+    let values = [];
+    let sql;
+    if (userID) {
+        values = [userID.toString(), productID];
+        sql = 'SELECT ccl2_products.*, ccl2_users.username, ccl2_users.email, COUNT(CASE WHEN ccl2_bookmarks.user_id = ? THEN 1 END) AS isBookmarked FROM ccl2_products JOIN ccl2_users ON ccl2_products.userID = ccl2_users.id LEFT JOIN ccl2_bookmarks ON ccl2_products.id = ccl2_bookmarks.product_id WHERE ccl2_products.id = ?;';
+    } else {
+        values = [parseInt(productID)];
+        sql = 'SELECT ccl2_products.*, ccl2_users.username, ccl2_users.email, 0 AS isBookmarked FROM ccl2_products JOIN ccl2_users ON ccl2_products.userID = ccl2_users.id WHERE ccl2_products.id = ?;';
+    }
+
+    db.query(sql, values, function (err, result, fields) {
         if (err) {
             reject(err);
         } else {
@@ -58,6 +58,27 @@ let getProductsByUserID = (userID) => new Promise((resolve, reject) => {
         }
     })
 })
+
+let getBookmarkedProducts = (userID) => new Promise((resolve, reject) => {
+    let sql = `
+    SELECT ccl2_products.*, ccl2_users.email, COUNT(ccl2_bookmarks.product_id) AS isBookmarked
+    FROM ccl2_products
+    JOIN ccl2_users ON ccl2_products.userID = ccl2_users.id
+    LEFT JOIN ccl2_bookmarks ON ccl2_products.id = ccl2_bookmarks.product_id AND ccl2_bookmarks.user_id = ?`;
+
+    sql += ' WHERE ccl2_bookmarks.user_id IS NOT NULL'; // Filter products that have a bookmark entry
+
+    sql += ' GROUP BY ccl2_products.id';
+
+    db.query(sql, [userID], function (err, products, fields) {
+        if (err) {
+            reject(err);
+        } else {
+            console.log(products);
+            resolve(products);
+        }
+    });
+});
 
 
 const uploadPictureLogic = async (productPicture) => {
@@ -151,7 +172,6 @@ let deleteProduct = (id) => new Promise((resolve, reject) => {
         if (err) {
             reject(err)
         }
-
         const pictureUUID = result[0].picture;
         const filepath = `./public/uploads/${pictureUUID}.jpg`;
         fs.unlinkSync(filepath);
@@ -166,12 +186,50 @@ let deleteProduct = (id) => new Promise((resolve, reject) => {
     })
 });
 
+let isProductBookmarked = (userId, productId) => new Promise((resolve, reject) => {
+    const sql = 'SELECT COUNT(*) AS count FROM ccl2_bookmarks WHERE user_id = ? AND product_id = ?';
+    db.query(sql, [userId, productId], function (err, results) {
+        if (err) {
+            reject(err);
+        } else {
+            console.log(results);
+            resolve(results[0].count > 0);
+        }
+    });
+});
+
+let addBookmark = (userId, productId) => new Promise((resolve, reject) => {
+    const sql = 'INSERT INTO ccl2_bookmarks (user_id, product_id) VALUES (?, ?)';
+    db.query(sql, [userId, productId], function (err, results) {
+        if (err) {
+            reject(err);
+        } else {
+            resolve();
+        }
+    });
+});
+
+let removeBookmark = (userId, productId) => new Promise((resolve, reject) => {
+    const sql = 'DELETE FROM ccl2_bookmarks WHERE user_id = ? AND product_id = ?';
+    db.query(sql, [userId, productId], function (err, results) {
+        if (err) {
+            reject(err);
+        } else {
+            resolve();
+        }
+    });
+});
+
 
 module.exports = {
     getProducts,
     getProductByProductID,
     getProductsByUserID,
+    getBookmarkedProducts,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    isProductBookmarked,
+    addBookmark,
+    removeBookmark
 }

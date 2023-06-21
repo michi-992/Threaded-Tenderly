@@ -6,60 +6,61 @@
         function deleteUserRequest() {
             const userID = <%= user.id %>;
             if (confirm('Are you sure you want to delete this user?')) {
-                fetch(`/profile/${userID}/delete`, {method:'delete'})
+                fetch(`/profile/${userID}/delete`, {method: 'delete'})
                     .then(() => {
-                        location.href="/logout";
+                        location.href = "/logout";
                     })
             }
         }
     </script>
 </head>
+<body class="flex flex-col justify-between min-h-screen">
+<div class="mb-12">
+    <%- include('components/topNav', { currentPage: "" }) %>
 
-<script>
-    function goBack() {
-        history.back();
-    }
-</script>
-<body>
-<%- include('components/topNav', { currentPage: "" }) %>
-<div class="max-w-3xl mx-auto relative mt-12">
-        <h1 class="text-5xl ml-6">Your Profile</h1>
-    <div class="grid grid-cols-2 gap-x-12 bg-white px-8 py-4 rounded-xl shadow-xl">
-        <div class="grid-span-2 grid-start-1 mb-2">
-            <div>User ID</div>
-            <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.id %></div>
+    <main class="max-w-3xl mx-auto relative mt-12">
+        <%- include('components/h1Heading', {heading: 'My Profile'} ) %>
+
+        <div class="grid grid-cols-2 gap-x-12 bg-white px-8 py-4 rounded-xl shadow-xl">
+            <div class="mb-2">
+                <div>User ID</div>
+                <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.id %></div>
+            </div>
+            <div class="mb-6">
+                <div>Username</div>
+                <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.username %></div>
+            </div>
+            <div class="mb-6">
+                <div>Name</div>
+                <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.name %></div>
+            </div>
+            <div class="mb-6">
+                <div>Surname</div>
+                <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.surname %></div>
+            </div>
+            <div class="col-span-2 mb-12">
+                <div>E-Mail</div>
+                <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.email %></div>
+            </div>
+            <div class="mb-6">
+                <div>Preferred Craft</div>
+                <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.craft ? user.craft : '/' %></div>
+            </div>
+            <div class="mb-2">
+                <div>You want to primarily</div>
+                <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.incentive ? user.incentive : '/' %></div>
+            </div>
+            <div>
+                <a href="/profile/<%= user.id %>/edit"
+                   class="bg-teal-700 text-white font-semibold rounded-full py-2 px-8 mt-5 w-32 mr-4">Edit</a>
+                <button class="bg-red-900 text-white rounded-full py-2 px-5 mb-3 font-semibold w-32"
+                        onClick="deleteUserRequest()">Delete
+                </button>
+            </div>
         </div>
-        <div class="grid-span-2 grid-start-1 mb-6">
-            <div>Username</div>
-            <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.username %></div>
-        </div>
-        <div class="grid-span-2 grid-start-1 mb-6">
-            <div>Name</div>
-            <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.name %></div>
-        </div>
-        <div class="grid-span-2 grid-start-1 mb-6">
-            <div>Surname</div>
-            <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.surname %></div>
-        </div>
-        <div class="grid-span-2 grid-start-1 mb-12">
-            <div>E-Mail</div>
-            <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.email %></div>
-        </div>
-        <div></div>
-        <div class="grid-span-2 grid-start-1 mb-6">
-            <div>Preferred Craft</div>
-            <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.craft %></div>
-        </div>
-        <div class="grid-span-2 grid-start-1 mb-2">
-            <div>You want to primarily be</div>
-            <div class="text-xl font-semibold border-b-2 border-gray-200"><%= user.incentive %></div>
-        </div>
-        <div>
-            <a href="/profile/<%= user.id %>/edit" class="bg-teal-700 text-white font-semibold rounded-full py-2 px-8 mt-5 w-32 mr-4">Edit</a>
-            <button class="bg-red-900 text-white rounded-full py-2 px-5 mb-3 font-semibold w-32" onClick="deleteUserRequest()">Delete</button>
-        </div>
-    </div>
+    </main>
 </div>
+<%- include('components/footer') %>
 
 
 </body>

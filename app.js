@@ -30,6 +30,7 @@ app.use('/', indexRouter);
 app.use('/profile', privateRouter);
 
 function errorHandler(err, req, res, next) {
+    console.log(err);
     res.render('404');
 }
 app.use(errorHandler);

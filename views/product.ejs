@@ -2,37 +2,84 @@
 <html lang="en">
 <head>
     <%- include('components/htmlHead') %>
+    <script>
+        async function toggleBookmark(productId) {
+            console.log(productId);
+            const url = `/marketplace/${productId}/bookmark`;
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Reload the page to update the bookmark icon
+                    location.reload();
+                }
+            };
+            await xhr.send();
+        }
+    </script>
 </head>
-<body>
-<%- include('components/topNav', { currentPage: '' }) %>
-<div class="max-w-5xl mx-auto relative mt-10">
-    <button onclick="goBack()" class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3">Go Back</button>
-</div>
-<div class="max-w-5xl mx-auto relative pt-4 grid grid-5 gap 6 h-fit-">
-    <div class="grid-span-5 flex mb-8">
-        <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>" class="rounded-xl w-60 object-cover shadow-xl">
-        <div class="ml-4 h-72 min-w-full">
-            <div class="font-bold text-5xl"><%= product.productName %></div>
-            <div class="font-light text-3xl mb-5">by <i><%= product.username %></i></div>
-            <div class="text-4xl mb-8 text-lime-900"><%= product.price %>€</div>
-            <div class="text-2xl font-semibold">Description</div>
-            <div class="font-medium mb-3"><%= product.description %></div>
+<body class="flex flex-col justify-between min-h-screen">
+<div class="mb-12">
+    <%- include('components/topNav', { currentPage: '' }) %>
 
-            <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>" class="bg-teal-700 text-white font-semibold rounded-full mt-3 py-2 px-8 mt-5 w-32">Contact Seller</a>
+    <div class="max-w-5xl mx-auto relative mt-10">
+        <%- include('components/goBackButton') %>
+    </div>
+    <main class="max-w-5xl mx-auto relative pt-4 grid grid-5 gap 6 h-fit-">
+        <div class="grid-span-5 flex mb-8">
+            <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>"
+                 class="rounded-xl w-60 object-cover shadow-xl">
+            <div class="ml-4 h-fit min-w-full">
+                <div class="font-bold text-5xl"><%= product.productName %></div>
+                <div class="font-light text-3xl mb-14">by <i><%= product.username %></i></div>
+                <div class="text-4xl mb-3 text-lime-900"><%= product.price %>€</div>
+                <div class="text-2xl font-semibold">Description</div>
+                <div class="font-medium mb-3"><%= product.description %></div>
+                <div class="flex">
+                    <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>"
+                       class="bg-teal-700 text-white font-semibold rounded-full py-2 px-8 mt-5 w-fit">Contact
+                        Seller</a>
+                    <% if (currentUser) { %>
+                        <% if (product.userID !== currentUser.id) { %>
+                            <% if (product.isBookmarked > 0) { %>
+                                <button onclick="toggleBookmark(<%= product.id %>)" class="bg-emerald-100 rounded-full flex mt-5 py-2 px-4">
+                                    <img src="/icons/bookmarkFilled.png" class="h-6" alt="bookmarked">
+                                    <p>remove bookmark</p>
+                                </button>
+                            <% } else { %>
+                                <button onclick="toggleBookmark(<%= product.id %>)" class="bg-emerald-100 rounded-full flex mt-5 py-2 px-4">
+                                    <img src="/icons/bookmark.png" class="h-6" alt="bookmark">
+                                    <p>add bookmark</p>
+                                </button>
+                            <% } %>
+                        <% } else { %>
+                            <a href="/profile/<%= currentUser.id %>/myproducts" class="underline">see own products</a>
+                        <% } %>
+                    <% } %>
+                </div>
+
+
+            </div>
+
         </div>
-
-    </div>
-    <div class="bg-gray-100 rounded-xl p-3 shadow-lg">
-        <div class="text-2xl font-semibold">Details</div>
-        <ul class="grid grid-cols-3 list-disc mx-5">
-            <li class="font-semibold"><i class="text-gray-600 font-medium">article of clothing: </i><%= product.article %></li>
-            <li class="font-semibold"><i class="text-gray-600 font-medium">product craft: </i><%= product.productCraft %></li>
-            <li class="font-semibold"><i class="text-gray-600 font-medium">color: </i><%= product.color %></li>
-            <li class="font-semibold"><i class="text-gray-600 font-medium">sizing: </i><%= product.sizing %></li>
-            <li class="font-semibold"><i class="text-gray-600 font-medium">intended season: </i><%= product.season %></li>
-        </ul>
-    </div>
+        <div class="bg-gray-100 rounded-xl p-3 shadow-lg">
+            <div class="text-2xl font-semibold">Details</div>
+            <ul class="grid grid-cols-3 list-disc mx-5">
+                <li class="font-semibold"><i class="text-gray-600 font-medium">article of
+                        clothing: </i><%= product.article %></li>
+                <li class="font-semibold"><i class="text-gray-600 font-medium">product
+                        craft: </i><%= product.productCraft %></li>
+                <li class="font-semibold"><i class="text-gray-600 font-medium">color: </i><%= product.color %></li>
+                <li class="font-semibold"><i class="text-gray-600 font-medium">sizing: </i><%= product.sizing %>
+                </li>
+                <li class="font-semibold"><i class="text-gray-600 font-medium">intended
+                        season: </i><%= product.season %>
+                </li>
+            </ul>
+        </div>
+    </main>
 </div>
+<%- include('components/footer') %>
 
 </body>
 </html>

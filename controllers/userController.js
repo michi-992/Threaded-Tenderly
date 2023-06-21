@@ -38,7 +38,14 @@ async function editUser(req, res, next) {
 async function updateUser(req, res, next) {
     try {
         const currentUser = req.currentUser;
-        await userModel.updateUser(req.body, currentUser.id);
+        const userData = req.body;
+        if(userData.craft === undefined) {
+            userData.craft = '';
+        }
+        if(userData.incentive === undefined) {
+            userData.incentive = '';
+        }
+        await userModel.updateUser(userData, currentUser.id);
         const user = await userModel.getUserByID(currentUser.id);
         res.render('profile', {user, currentUser});
     } catch (error) {
@@ -49,11 +56,28 @@ async function updateUser(req, res, next) {
 
 async function createUser(req, res, next) {
     try {
-        console.log(req.body);
         const userData = req.body;
-        await userModel.createUser(userData);
-        res.redirect('/login');
+        const users = await userModel.getUsers();
+        const user = users.find(u => {
+            return u.username === userData.username;
+        });
+
+        if(user) {
+            const message = 'This username is already taken'
+            res.render('register', { message })
+        } else {
+            if(userData.craft === undefined) {
+                userData.craft = '';
+            }
+            if(userData.incentive === undefined) {
+                userData.incentive = '';
+            }
+
+            await userModel.createUser(userData);
+            res.redirect('/login');
+        }
     } catch (error) {
+        console.log(error);
         next(error);
     }
 }

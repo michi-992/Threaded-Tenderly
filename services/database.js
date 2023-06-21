@@ -9,11 +9,17 @@ const config = mysql.createConnection({
     database: 'cc221043'
 });
 
-config.connect(function(err) {
+config.connect(function (err) {
     if (err) {
-        console.log(err);
-    };
-    console.log("Connected to database.");
+        console.log("MySQL Connection Error:", err);
+        handleConnectionError(err); // Call the error handler function
+    } else {
+        console.log("Connected to database.");
+    }
 });
 
-module.exports = {config};
+config.on('error', function (err) {
+    console.log("MySQL Connection Error:", err);
+});
+
+module.exports = { config };

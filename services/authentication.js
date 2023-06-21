@@ -3,9 +3,9 @@ const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const bcrypt = require('bcrypt');
 const productModel = require("../models/productModel");
 
-async function authenticateUser({email, password}, users, res) {
+async function authenticateUser({username, password}, users, res) {
     const user = users.find(u => {
-        return u.email === email;
+        return u.username === username;
     });
 
     if (user && await checkPassword(password, user.password)) {
@@ -60,13 +60,9 @@ function authenticateJWT(req, res, next) {
                 req.currentUser = currentUser;
 
                 const currentUserID = parseInt(req.currentUser.id);
-                console.log(userID)
-                console.log(currentUserID)
                 if (userID !== currentUserID) {
-                    console.log('404');
                     res.render('404');
                 } else {
-                    console.log('next');
                     next();
                 }
             }
@@ -74,8 +70,6 @@ function authenticateJWT(req, res, next) {
     } else {
         res.redirect('/login');
     }
-
-
 }
 
 

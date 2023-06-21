@@ -30,7 +30,8 @@ router.get('/logout', (req, res, next) => {
 
 router.route('/register')
     .get((req, res, next) => {
-        res.render('register');
+        const message = '';
+        res.render('register', { message });
     })
     .post(userController.createUser);
 
@@ -38,6 +39,19 @@ router.route('/register')
 router.use(authService.checkIfLoggedIn);
 
 router.get('/marketplace', productController.getProducts)
+router.get('/marketplace/filter', productController.filterProducts);
+router.post('/marketplace/:productId/bookmark', productController.toggleBookmark);
 router.get('/marketplace/:productID', productController.getProductByProductID)
+
+router.get('/about', async (req, res, next) => {
+    try {
+        const currentUser = req.currentUser;
+        res.render('about', { currentUser });
+    } catch (err) {
+        console.log(err);
+    }
+
+})
+
 
 module.exports = router;

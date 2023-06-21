@@ -1,44 +1,47 @@
 <div class="bg-emerald-100 w-full h-60 absolute top-14 z-0"></div>
-</div>
-<header class="relative">
-    <a href="/marketplace">
-        <div class="flex content-center absolute top-3">
-
-            <img src="/icons/logo.png" alt="logo" class="h-8">
-            <div class="font-kaushanScript text-lg">Threaded Tenderly</div>
-
-        </div>
+<header class="relative flex gap-6 justify-between">
+    <a href="/marketplace" class="w-44 flex content-center my-auto">
+        <img src="/icons/logo.png" alt="logo" class="h-8">
+        <div class="font-kaushanScript text-lg">Threaded Tenderly</div>
     </a>
-    <nav class="grid grid-cols-6 max-w-5xl mx-auto gap-6 text-center align-middle">
 
+    <nav class="flex shrink justify-around gap-4 text-center align-middle" style="width: 48rem">
         <a href="/marketplace"
-           class="py-4 <%= currentPage === 'marketplace' ? 'border-b-2 border-black font-semibold' : '' %>">Marketplace</a>
-        <a href="" class="py-4 opacity-30 <%= currentPage === 'about' ? 'border-b-2 border-black font-semibold' : '' %>">About</a>
-        <a href=""
-           class="py-4 opacity-30 <%= currentPage === 'register' ? 'border-b-2 border-black font-semibold' : '' %>">Artisans</a>
+           class="py-4 w-1/4 shrink  <%= currentPage === 'marketplace' ? 'border-b-2 border-black font-semibold' : '' %>">
+            Marketplace
+        </a>
+
+        <a href="/about"
+           class="py-4 w-1/4 shrink <%= currentPage === 'about' ? 'border-b-2 border-black font-semibold' : '' %>">
+            About
+        </a>
+
         <% if(currentUser) { %>
             <a href="/profile/<%= currentUser.id %>/myproducts"
-               class="py-4 <%= currentPage === 'myproducts' ? 'border-b-2 border-black font-semibold' : '' %>">My
-                Products</a>
-            <a href="" class="py-4 opacity-30 <%= currentPage === 'bookmarks' ? 'border-b-2 border-black font-semibold' : '' %>">My
-                Bookmarks</a>
-        <% } %>
+               class="py-4 w-1/4 shrink <%= currentPage === 'myproducts' ? 'border-b-2 border-black font-semibold' : '' %>">
+                My Products
+            </a>
 
-        <div class="col-start-6 flex justify-end content-center my-auto">
-            <a href=""><img src="/icons/shoppingCart.png" class="h-8 opacity-30" alt="Shopping Cart"></a>
-        </div>
+            <a href="/profile/<%= currentUser.id %>/mybookmarks"
+               class="py-4 w-1/4 shrink <%= currentPage === 'mybookmarks' ? 'border-b-2 border-black font-semibold' : '' %>">
+                My Bookmarks
+            </a>
+        <% } %>
     </nav>
 
-    <div class="absolute right-2 top-0 h-full flex align-middle">
+    <div class="my-auto w-44 h-full flex justify-end">
         <% if (currentUser) { %>
-            <div class="col-start-6 flex justify-end content-center my-auto">
-                <a href="/logout" class="mr-4 bg-teal-800 text-white font-semibold rounded-full py-1 px-3">Logout</a>
-                <a href="/profile/<%= currentUser.id %>">
-                    <img src="/icons/profile.png" alt="profile" class="h-8">
+            <div class="flex shrink-0 gap-2">
+                <button onclick="goToLogout()"
+                        class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3">
+                    Logout
+                </button>
+                <a href="/profile/<%= currentUser.id %>" class="w-fit">
+                    <img src="/icons/profile.png" alt="profile" class="h-8 w-8">
                 </a>
             </div>
         <% } else { %>
-            <div class="flex gap-x-2 my-auto">
+            <div class="flex gap-x-2">
                 <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3" onclick="goToLogin()">
                     Login
                 </button>

@@ -9,23 +9,28 @@
     <h1 class="font-bold text-6xl font-kaushanScript">ThreadedTenderly</h1>
 </div>
 <div class="grid grid-cols-3">
-    <div class="col-start-2 mb-8">
-        <h1 class="text-5xl ml-5">Login</h1>
-        <form method="POST" action="/login" class="w-full flex flex-col justify-center content-center shadow-xl bg-white px-3 pt-3 rounded-xl">
+    <div class="col-start-2">
+        <%- include('components/h1Heading', {heading: 'Login'} ) %>
+        <form method="POST" action="/login"
+              class="w-full flex flex-col justify-center content-center shadow-xl bg-white px-3 pt-3 rounded-xl">
             <% if (message) { %>
                 <div class="m-auto mb-2 text-red-500"><%= message %></div>
             <% } %>
-            <%- include('./components/inputLabel', { labelFor: 'email', content: 'E-Mail'}) %>
-            <%- include('./components/textInput', { name: 'email' }) %>
+
+            <%- include('./components/inputLabel', { labelFor: 'username', content: 'Username'}) %>
+            <%- include('./components/textInput', { name: 'username', required: 'yes' }) %>
             <%- include('./components/inputLabel', { labelFor: 'password', content: 'Password'}) %>
-            <%- include('./components/passwordInput', { name: 'password' }) %>
+            <%- include('./components/passwordInput', { name: 'password', required: 'yes' }) %>
 
             <button type="submit" class="bg-teal-800 text-white rounded-full p-1 mb-3 my-3 font-semibold">Login</button>
         </form>
     </div>
 </div>
 
-<p class="text-center">Don't have an account yet? <a href="./register" class="underline text-indigo-900">Register</a></p>
+<div class="text-center my-4">
+    <p class="mb-2">Already have an account? <a href="/register" class="underline text-indigo-900">Regitser</a></p>
+    <a href="/marketplace" class="underline text-indigo-900">Shop now</a>
+</div>
 
 </body>
 </html>

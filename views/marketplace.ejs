@@ -1,50 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="productsContainer">
 <head>
     <%- include('components/htmlHead') %>
+    <script>
+        let currentArticle = '<%= article %>'
+
+        // Function to send AJAX request to filter products
+        async function filterProducts(article) {
+            currentArticle = article;
+            const url = `/marketplace/filter?article=${encodeURIComponent(article)}`;
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const productsContainer = document.getElementById('productsContainer');
+                    productsContainer.innerHTML = xhr.responseText;
+                }
+            };
+            await xhr.send()
+        }
+
+        // Function to send AJAX request to toggle bookmark status
+        async function toggleBookmark(productId) {
+            const url = `/marketplace/${productId}/bookmark`;
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('POST', url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    filterProducts(currentArticle);
+                }
+            };
+            await xhr.send();
+        }
+    </script>
 </head>
-<body>
-<%- include('components/topNav', { currentPage: 'marketplace' }) %>
+<body class="flex flex-col justify-between min-h-screen">
+<div class="mb-12">
+    <%- include('components/topNav', { currentPage: 'marketplace' }) %>
 
-<div class="mb-10">
-    <div class="max-w-5xl grid grid-cols-10 gap-6 mx-auto relative h-80 pt-10">
-        <div class="col-span-8 col-start-2 relative">
-            <img src="./contentPictures/threadsCloseUp.png" alt="" class="w-8/12 h-full absolute z-1 rounded-l-lg">
-            <img src="./contentPictures/SlideShowForm.png" alt=""
-                 class="w-7/12 h-full absolute right-0 z-10 rounded-r-lg">
-            <div class="absolute right-8 top-14 z-20 text-right">
-                <p class="text-4xl font-kaushanScript">Welcome</p>
-                <% if (currentUser) { %>
-                    <p class="text-5xl font-kaushanScript"><%= currentUser.username %></p>
-                <% } %>
-            </div>
-            <p class="w-5/12 absolute right-8 top-48 z-20 lg:text-xl md:text-lg sm:text-regular text-right">
-                We currently have <%= products.length %> products available on our website.
-            </p>
-        </div>
-    </div>
-</div>
-
-<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-    <% products.forEach(product => { %>
-        <div class="shadow-lg bg-white rounded-lg flex flex-col justify-between border-grey-100 border-2">
-            <a href="./marketplace/<%= product.id %>" alt="see product <%= product.productName %>">
-                <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>"
-                     class="h-40 m-auto rounded-lg mt-2 object-center">
-                <p class="text-lg font-semibold ml-2 text-center"><%= product.productName %></p>
-            </a>
-            <div class="flex justify-between content-center my-2 mx-3">
-                <p class="text-lime-700 font-semibold"><%= product.price %>€</p>
-                <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>" class="bg-lime-200 text-white rounded-full px-3 font-semibold max-w-fit">
-                    <img src="/icons/mail.png" class="h-6" alt="contact">
-                </a>
+    <main>
+        <div class="mb-10" aria-hidden="true">
+            <div class="max-w-5xl grid grid-cols-10 gap-6 mx-auto relative h-80 pt-10">
+                <div class="col-span-8 col-start-2 relative">
+                    <img src="./contentPictures/threadsCloseUp.png" alt=""
+                         class="w-8/12 h-full absolute z-1 rounded-l-lg">
+                    <img src="./contentPictures/SlideShowForm.png" alt=""
+                         class="w-7/12 h-full absolute right-0 z-10 rounded-r-lg">
+                    <div class="absolute right-8 top-14 z-20 text-right">
+                        <p class="text-4xl font-kaushanScript">Welcome</p>
+                        <% if (currentUser) { %>
+                            <p class="text-5xl font-kaushanScript"><%= currentUser.username %></p>
+                        <% } %>
+                    </div>
+                    <p class="w-5/12 absolute right-8 top-48 z-20 lg:text-xl md:text-lg sm:text-regular text-right">
+                        We currently
+                        have <%= products.length %> <%= article %> <%= (products.length === 1) ? 'product' : 'products' %>
+                        available on our website.</p>
+                </div>
             </div>
         </div>
 
-    <% }) %>
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-9 gap-6 mb-6">
+            <%- include('components/filterButton', { options: ['', 'top-wear', 'pants', 'dress', 'skirt', 'one-piece', 'jewellery', 'shoes', 'other'] } ) %>
+        </div>
 
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <%- include('components/productListing') %>
+        </div>
+    </main>
 </div>
-
-
+<%- include('components/footer') %>
 </body>
 </html>

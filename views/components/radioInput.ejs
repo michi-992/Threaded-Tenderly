@@ -1,7 +1,5 @@
 <% options.forEach(option => { %>
-    <% if (option === '') { %>
-        <input type="radio" id="<%= option %>" name="<%= name %>" value="<%= option %>" hidden checked>
-    <% } else { %>
+
     <div>
         <% if (option === selectedValue) { %>
             <input type="radio" id="<%= option %>" name="<%= name %>" value="<%= option %>" checked>
@@ -10,7 +8,4 @@
         <% } %>
         <label for="<%= option %>"><%= option %></label>
     </div>
-    <% } %>
-
-
 <% }); %>

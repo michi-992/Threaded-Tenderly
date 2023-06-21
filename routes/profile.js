@@ -17,4 +17,6 @@ router.get('/:userID/myProducts/:productID/edit', authService.authenticateJWT, p
 router.post('/:userID/myProducts/:productID', authService.authenticateJWT, productController.updateProduct);
 router.delete('/:userID/myProducts/:productID/delete', authService.authenticateJWT, productController.deleteProduct);
 
+
+router.get('/:userID/mybookmarks',authService.authenticateJWT, productController.getBookmarkedProducts);
 module.exports = router;

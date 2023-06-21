@@ -1,0 +1,6 @@
+<% options.forEach(option => { %>
+    <button onclick="filterProducts('<%= option %>')"
+            class="border-y-2 py-2 <%= article === option ? 'shadow-lg font-semibold border-black' : 'border-gray-200' %>">
+        <%= option ? option : 'all' %></button>
+<% }) %>
+

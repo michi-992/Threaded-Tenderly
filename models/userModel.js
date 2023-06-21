@@ -23,25 +23,30 @@ let getUserByID = (userID) => new Promise((resolve, reject) => {
 
 
 let createUser = (userData) => new Promise(async (resolve, reject) => {
-    userData.password = await bcrypt.hash(userData.password, 10);
-    const sql = "INSERT INTO ccl2_users SET " +
-        "name = " + db.escape(userData.name) +
-        ", surname = " + db.escape(userData.surname) +
-        ", username = " + db.escape(userData.username) +
-        ", email = " + db.escape(userData.email) +
-        ", craft = " + db.escape(userData.craft) +
-        ", incentive = " + db.escape(userData.incentive) +
-        ", password = " + db.escape(userData.password);
+    try {
+        userData.password = await bcrypt.hash(userData.password, 10);
+        const sql = "INSERT INTO ccl2_users SET " +
+            "name = " + db.escape(userData.name) +
+            ", surname = " + db.escape(userData.surname) +
+            ", username = " + db.escape(userData.username) +
+            ", email = " + db.escape(userData.email) +
+            ", craft = " + db.escape(userData.craft) +
+            ", incentive = " + db.escape(userData.incentive) +
+            ", password = " + db.escape(userData.password);
 
 
-    db.query(sql, function (err, result, fields) {
-        if (err) {
-            reject(err);
-        }
-        const userId = result.insertId;
-        userData.id = userId;
-        resolve(userData);
-    })
+        db.query(sql, function (err, result, fields) {
+            if (err) {
+                console.log(error)
+                reject(err);
+            }
+            const userId = result.insertId;
+            userData.id = userId;
+            resolve(userData);
+        })
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 let updateUser = (userData, id) => new Promise(async (resolve, reject) => {
