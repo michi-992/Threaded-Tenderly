@@ -3,27 +3,36 @@
 <head>
     <%- include('components/htmlHead') %>
     <script>
+        // Function to send AJAX request to toggle bookmark status
         async function toggleBookmark(productId) {
-            const url = `/marketplace/${productId}/bookmark`;
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', url, true);
+            const url = `/marketplace/${productId}/bookmark`;  // construct the URL for the bookmark toggle request
+            const xhr = new XMLHttpRequest(); // create a new XMLHttpRequest object
+
+            xhr.open('POST', url, true); // initialize the request with the POST method and the specified URL
+
+            // define the event handler for the readyStateChange event
             xhr.onreadystatechange = function () {
+                // check if the request is completed and the response status is OK (200)
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     // Reload the page to update the bookmark icon
                     location.reload();
                 }
             };
+            // send the request asynchronously
             await xhr.send();
         }
     </script>
 </head>
 
 <body class="flex flex-col justify-between min-h-screen">
+<!--if comments for components not specifically added here, then look at comments in the component files itself-->
+
 <div class="mb-12">
     <%- include('components/header', { currentPage: 'mybookmarks' }) %>
     <main class="max-w-3xl mx-auto relative mt-12">
         <%- include('components/h1Heading', {heading: 'My Bookmarks'} ) %>
         <div class="grid grid-cols-4 gap-3">
+<!--            all bookmarked products here-->
             <%- include('components/productListing') %>
         </div>
     </main>

@@ -1,5 +1,5 @@
+<!--iterations over all optiona and automatically checked for the specified option if it matches the selected Value-->
 <% options.forEach(option => { %>
-
     <div>
         <% if (option === selectedValue) { %>
             <input type="radio" id="<%= option %>" name="<%= name %>" value="<%= option %>" checked>

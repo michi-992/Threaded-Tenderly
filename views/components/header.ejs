@@ -1,11 +1,14 @@
+<!--decorative div-->
 <div class="bg-emerald-100 w-full h-60 absolute top-14 z-0"></div>
 
+<!-- header with an included nav tag, used in most pages-->
 <header class="relative flex gap-6 justify-between px-6 bg-white">
     <a href="/marketplace" class="w-44 flex content-center my-auto">
         <img src="/icons/logo.png" alt="logo" class="h-8">
         <div class="font-kaushanScript text-lg">Threaded Tenderly</div>
     </a>
 
+<!--    the current page is chosen on the views which makes the links appear differnet from others-->
     <nav class="flex shrink justify-around gap-4 text-center align-middle" style="width: 48rem">
         <a href="/marketplace"
            class="py-4 w-1/4 shrink  <%= currentPage === 'marketplace' ? 'border-b-2 border-black font-semibold' : '' %>">
@@ -17,6 +20,7 @@
             About
         </a>
 
+<!--        two navigation anchor tags that only show up if a user is logged in-->
         <% if(currentUser) { %>
             <a href="/profile/<%= currentUser.id %>/myproducts"
                class="py-4 w-1/4 shrink <%= currentPage === 'myproducts' ? 'border-b-2 border-black font-semibold' : '' %>">
@@ -31,6 +35,7 @@
     </nav>
 
     <div class="my-auto w-44 h-full flex justify-end">
+<!--        logout and profile for logged in users and login and register for guests-->
         <% if (currentUser) { %>
             <div class="flex shrink-0 gap-2">
                 <button onclick="goToLogout()"

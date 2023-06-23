@@ -5,6 +5,9 @@
 </head>
 
 <body class="flex flex-col justify-between min-h-screen">
+
+<!--if comments for components not specifically added here, then look at comments in the component files itself-->
+
 <div class="mb-12">
     <%- include('components/header', { currentPage: "" }) %>
 
@@ -14,6 +17,7 @@
         <%- include('components/h1Heading', {heading: 'Edit your product'} ) %>
         <form action="/profile/<%= userID %>/myproducts/<%= product.id %>" method="POST" enctype="multipart/form-data"
               class="w-full grid grid-cols-2 gap-x-6 shadow-xl bg-white px-3 pt-3 rounded-xl border-grey-50 border">
+<!--            all retrieved information from the product is immediately displayed as the value in a text field, a checked checkbox or selected select input-->
             <div class="flex flex-col">
                 <%- include('./components/inputLabel', { labelFor: 'productName', content: 'Product Name'}) %>
                 <input type="text" id="productName" name="productName" required

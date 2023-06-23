@@ -4,6 +4,8 @@
     <%- include('components/htmlHead') %>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-emerald-50 to-emerald-200 max-w-3xl m-auto">
+<!--if comments for components not specifically added here, then look at comments in the component files itself-->
+
 <div class="flex justify-center content-center my-5">
     <img src="./icons/logo.png" alt="Logo" class="h-20">
     <h1 class="font-bold text-6xl font-kaushanScript">ThreadedTenderly</h1>
@@ -13,6 +15,7 @@
         <%- include('components/h1Heading', {heading: 'Login'} ) %>
         <form method="POST" action="/login"
               class="w-full flex flex-col justify-center content-center shadow-xl bg-white px-3 pt-3 rounded-xl">
+<!--            message for if there is a mistake in the login process, provided by backend-->
             <% if (message) { %>
                 <div class="m-auto mb-2 text-red-500"><%= message %></div>
             <% } %>
@@ -27,6 +30,7 @@
     </div>
 </div>
 
+<!--options to go to register and marketplace-->
 <div class="text-center my-4">
     <p class="mb-2">Already have an account? <a href="/register" class="underline text-indigo-900">Register</a></p>
     <a href="/marketplace" class="underline text-indigo-900">Shop now</a>

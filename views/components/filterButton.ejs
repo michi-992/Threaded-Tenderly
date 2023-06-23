@@ -1,3 +1,4 @@
+<!--used in marketplace.ejs to iterate over different filter options and let one of them appear different (selected option)-->
 <% options.forEach(option => { %>
     <button onclick="filterProducts('<%= option %>')"
             class="border-y-2 py-2 <%= article === option ? 'shadow-lg font-semibold border-black' : 'border-gray-200' %>">

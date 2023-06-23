@@ -3,43 +3,60 @@
 <head>
     <%- include('components/htmlHead') %>
     <script>
+        // default is an empty string
         let currentArticle = '<%= article %>'
 
         // Function to send AJAX request to filter products
         async function filterProducts(article) {
-            currentArticle = article;
-            const url = `/marketplace/filter?article=${encodeURIComponent(article)}`;
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
+            currentArticle = article; // updates the current article so it can be used for the filterButton component to change the appearance of the currently selected button
+
+            const url = `/marketplace/filter?article=${encodeURIComponent(article)}`; // construct the URL for the request, encoding the article parameter
+            const xhr = new XMLHttpRequest(); // create a new XMLHttpRequest object
+
+            xhr.open('GET', url, true); // initialize the request with the GET method and the specified URL
+
+            // define the event handler for the readyStateChange event
             xhr.onreadystatechange = function () {
+                // check if the request is completed and the response status is OK (200)
                 if (xhr.readyState === 4 && xhr.status === 200) {
+                    // get the productsContainer element
                     const productsContainer = document.getElementById('productsContainer');
+                    // set the innerHTML of the productsContainer (html tag) to the response text received from the server
                     productsContainer.innerHTML = xhr.responseText;
                 }
             };
-            await xhr.send()
+            // send the request asynchronously
+            await xhr.send();
         }
 
         // Function to send AJAX request to toggle bookmark status
         async function toggleBookmark(productId) {
-            const url = `/marketplace/${productId}/bookmark`;
-            const xhr = new XMLHttpRequest();
+            const url = `/marketplace/${productId}/bookmark`;  // construct the URL for the request
+            const xhr = new XMLHttpRequest(); // create a new XMLHttpRequest object
 
-            xhr.open('POST', url, true);
+            xhr.open('POST', url, true);  // initialize the request with the POST method and the specified URL
+
+            // define the event handler for the readyStateChange event
             xhr.onreadystatechange = function () {
+                // check if the request is completed and the response status is OK (200)
                 if (xhr.readyState === 4 && xhr.status === 200) {
+                    // call the filterProducts function to update the displayed products
                     filterProducts(currentArticle);
                 }
             };
+            // send the request asynchronously
             await xhr.send();
         }
     </script>
 </head>
 <body class="flex flex-col justify-between min-h-screen">
+<!--if comments for components not specifically added here, then look at comments in the component files itself-->
+
 <div class="mb-12">
     <%- include('components/header', { currentPage: 'marketplace' }) %>
 
     <main>
+<!--        decorative banner like visual element-->
         <div class="mb-10" aria-hidden="true">
             <div class="max-w-5xl grid grid-cols-10 gap-6 mx-auto relative h-80 pt-10">
                 <div class="col-span-8 col-start-2 relative">
@@ -49,11 +66,13 @@
                          class="w-7/12 h-full absolute right-0 z-10 rounded-r-lg">
                     <div class="absolute right-8 top-14 z-20 text-right">
                         <h1 class="text-4xl font-kaushanScript">Welcome</h1>
+<!--                        user is greeted with their username if logged in-->
                         <% if (currentUser) { %>
                             <p class="text-5xl font-kaushanScript"><%= currentUser.username %></p>
                         <% } %>
                     </div>
                     <p class="w-5/12 absolute right-8 top-48 z-20 lg:text-xl md:text-lg sm:text-regular text-right">
+<!--                        dependent on article and amount of products fitting it-->
                         We currently
                         have <%= products.length %> <%= article %> <%= (products.length === 1) ? 'product' : 'products' %>
                         available on our website.</p>

@@ -3,22 +3,29 @@
 <head>
     <%- include('components/htmlHead') %>
     <script>
-        async function toggleBookmark(productId) {
-            console.log(productId);
-            const url = `/marketplace/${productId}/bookmark`;
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', url, true);
+        // Function to send AJAX request to toggle bookmark status
+        async function toggleBookmark(productID) {
+            const url = `/marketplace/${productID}/bookmark`;  // construct the URL for the bookmark toggle request
+            const xhr = new XMLHttpRequest(); // create a new XMLHttpRequest object
+
+            xhr.open('POST', url, true); // initialize the request with the POST method and the specified URL
+
+            // define the event handler for the readyStateChange event
             xhr.onreadystatechange = function () {
+                // check if the request is completed and the response status is OK (200)
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     // Reload the page to update the bookmark icon
                     location.reload();
                 }
             };
+            // send the request asynchronously
             await xhr.send();
         }
     </script>
 </head>
 <body class="flex flex-col justify-between min-h-screen">
+<!--if comments for components not specifically added here, then look at comments in the component files itself-->
+
 <div class="mb-12">
     <%- include('components/header', { currentPage: '' }) %>
 
@@ -26,6 +33,7 @@
         <%- include('components/goBackButton') %>
     </div>
     <main class="max-w-5xl mx-auto relative pt-4 grid grid-5 gap 6 h-fit-">
+<!--        all information for the product-->
         <div class="grid-span-5 flex mb-8">
             <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>" title="<%= product.productName %>""
             class="rounded-xl w-60 object-cover shadow-xl">
@@ -39,6 +47,7 @@
                     <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>"
                        class="bg-teal-700 hover:bg-teal-900 text-white font-semibold rounded-full py-2 px-8 mt-5 w-fit">Contact
                         Seller</a>
+<!--                    same structure as in marketspace where only logged in users see a bookmark option, only on products that are not their own, and dependent on whether or not they are bookamrked or not-->
                     <% if (currentUser) { %>
                         <% if (product.userID !== currentUser.id) { %>
                             <% if (product.isBookmarked > 0) { %>
@@ -61,6 +70,7 @@
 
             </div>
 
+<!--            all the optional input for a product (except description) displayed here, if there is no data a / is displayed-->
         </div>
         <div class="bg-gray-100 rounded-xl p-3 shadow-lg">
             <div class="text-2xl font-semibold">Details</div>

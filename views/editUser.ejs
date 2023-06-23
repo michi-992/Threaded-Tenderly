@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <%- include('components/htmlHead') %>
-
 </head>
-
-
 <body class="flex flex-col justify-between min-h-screen">
+<!--if comments for components not specifically added here, then look at comments in the component files itself-->
+
 <div class="mb-12">
     <%- include('components/header', { currentPage: "" }) %>
     <main class="relative max-w-3xl mx-auto relative mt-12">
@@ -16,6 +15,7 @@
         <form action="/profile/<%= currentUser.id %>" method="post"
               class="w-full flex flex-col justify-center content-center bg-white px-3 pt-3 rounded-xl shadow-xl">
 
+            <!--            all retrieved information from the user is immediately displayed as the value in a text field, or a checked checkbox-->
             <div class="grid grid-cols-2 gap-x-4">
                 <div class="flex flex-col">
                     <%- include('./components/inputLabel', { labelFor: 'name', content: 'First Name'}) %>
@@ -32,6 +32,9 @@
             <%- include('./components/inputLabel', { labelFor: 'username', content: 'Username'}) %>
             <input type="text" id="username" name="username" required
                    class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.username %>">
+            <% if (message) { %>
+                <div class="mb-2 text-red-500"><%= message %></div>
+            <% } %>
 
             <%- include('./components/inputLabel', { labelFor: 'email', content: 'E-Mail'}) %>
             <input type="email" id="email" name="email" required
@@ -51,7 +54,6 @@
 
             <%- include('./components/inputLabel', { labelFor: 'password', content: 'Password'}) %>
             <%- include('./components/passwordInput', { name: 'password', required: '' }) %>
-
 
 
             <div class="grid grid-cols-3 mb-4">
