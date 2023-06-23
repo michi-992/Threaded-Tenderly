@@ -7,8 +7,8 @@ async function getUsers(req, res, next) {
         const currentUser = req.currentUser;
         const users = await userModel.getUsers();
         res.send(users);
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        next(err);
     }
 }
 
@@ -29,9 +29,8 @@ async function editUser(req, res, next) {
 
         res.render('editUser', {user, currentUser})
 
-    } catch
-        (error) {
-        next(error);
+    } catch(err) {
+        next(err);
     }
 }
 
@@ -48,8 +47,8 @@ async function updateUser(req, res, next) {
         await userModel.updateUser(userData, currentUser.id);
         const user = await userModel.getUserByID(currentUser.id);
         res.render('profile', {user, currentUser});
-    } catch (error) {
-        next(error)
+    } catch (err) {
+        next(err)
     }
 }
 
@@ -76,23 +75,21 @@ async function createUser(req, res, next) {
             await userModel.createUser(userData);
             res.redirect('/login');
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        next(err);
     }
 }
 
 async function deleteUser(req, res, next) {
     userModel.deleteUser(parseInt(req.params.userID))
-        .then(() => {
-            const userID = req.params.userID;
-            res.redirect(`/profile/${userID}/myproducts`);
+        .then(() => { // already handled in the profile.ejs file, just for completion purposes
+            res.redirect(`/logout`);
         }).catch((err) => {
         next(err);
     })
 }
 
 module.exports = {
-    getUsers,
     getUserByID,
     editUser,
     updateUser,

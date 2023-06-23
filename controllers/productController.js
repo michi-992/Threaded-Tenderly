@@ -2,67 +2,61 @@ const productModel = require('../models/productModel');
 const fs = require("fs");
 const userModel = require("../models/userModel");
 
+
+// I use currentUser in my functions to talk about the logged in user
+// it is handled that no product specific routes can be accessed from other users, even if they are logged in the authentication middleware (meaning the req.params.userId and req.currentUser.id are the same)
 async function getProducts(req, res, next) {
     try {
-        const currentUser = req.currentUser;
+        const currentUser = req.currentUser; // currentUser needed to be passed for (at least) the header in the view
         const currentUserID = req.currentUser ? currentUser.id : '';
         const article = '';
         const products = await productModel.getProducts(article, currentUserID);
 
         res.render('marketplace', {products, currentUser, article });
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        next(err);
     }
 }
 
 async function filterProducts(req, res, next) {
     try {
+        const currentUser = req.currentUser; // currentUser needed to be passed for (at least) the header in the view
         const article = req.query.article; // Get the article from the query parameter
-        const currentUser = req.currentUser;
-        const currentUserID = req.currentUser ? currentUser.id : '';
+        const currentUserID = currentUser ? currentUser.id : '';
         const filteredProducts = await productModel.getProducts(article, currentUserID); // Pass the article to the model function
         res.render('marketplace', { products: filteredProducts, currentUser, article });
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        next(err);
     }
 }
 
-async function getBookmarkedProducts(req, res, next) {
-    const currentUser = req.currentUser;
-    const products = await productModel.getBookmarkedProducts(currentUser.id);
-    res.render('userBookmarks', {currentUser, products});
-}
 
 async function getProductByProductID(req, res, next) {
     try {
-        const currentUser = req.currentUser;
-        let currentUserID = '';
-        if(currentUser) {
-            currentUserID = currentUser.id;
-        }
+        const currentUser = req.currentUser; // currentUser needed to be passed for (at least) the header in the view
+        let currentUserID = currentUser ? currentUser.id : '';
 
         const productID = req.params.productID
         const product = await productModel.getProductByProductID(productID, currentUserID);
         res.render('product', {product, currentUser})
-    } catch (error) {
-        res.status(404)
+    } catch (err) {
         next(err);
     }
 }
 
 async function getProductsByUserID(req, res, next) {
     try {
-        const currentUser = req.currentUser;
+        const currentUser = req.currentUser;  // currentUser needed to be passed for (at least) the header in the view
         const products = await productModel.getProductsByUserID(currentUser.id);
         res.render('userProducts', {currentUser, products});
     } catch (err) {
-        console.log(err);
         next(err);
     }
 }
 
 async function createProduct(req, res, next) {
     try {
+        const currentUser = req.currentUser; // currentUser needed to be passed for (at least) the header in the view
         const productData = req.body;
         const pictureData = req.files.picture;
         const userID = req.params.userID;
@@ -73,18 +67,17 @@ async function createProduct(req, res, next) {
             productData.season = '';
         }
 
-        const currentUser = req.currentUser;
+
         await productModel.createProduct(productData, pictureData, currentUser);
         res.redirect(`/profile/${userID}/myproducts`);
-    } catch (error) {
-        console.log(error);
-        next(error);
+    } catch (err) {
+        next(err);
     }
 }
 
 async function editProduct(req, res, next) {
     try {
-        const currentUser = req.currentUser;
+        const currentUser = req.currentUser; // currentUser needed to be passed for (at least) the header in the view
         const userID = parseInt(req.params.userID);
         const productID = parseInt(req.params.productID)
         const currentUserID = parseInt(req.currentUser.id);
@@ -98,9 +91,7 @@ async function editProduct(req, res, next) {
 
         res.render('editProduct', {product, productID, currentUser, userID})
 
-    } catch
-        (error) {
-        res.status(404)
+    } catch(err) {
         next(err);
     }
 }
@@ -108,8 +99,7 @@ async function editProduct(req, res, next) {
 async function updateProduct(req, res, next) {
     try {
         const productID = parseInt(req.params.productID);
-        const userID = parseInt(req.params.userID);
-        const currentUser = req.currentUser;
+        const userID = parseInt(req.params.userID); // used once to showcase req.currentUser.id and req.params.userId are the same
         let pictureData;
         const productData = req.body;
         if(productData.craft === undefined) {
@@ -127,53 +117,29 @@ async function updateProduct(req, res, next) {
 
         await productModel.updateProduct(productData, productID, pictureData);
         res.redirect(`/profile/${userID}/myproducts`);
-    } catch (error) {
-        res.status(404)
+    } catch (err) {
+        next(err);
     }
 }
 
 async function deleteProduct(req, res, next) {
     productModel.deleteProduct(parseInt(req.params.productID))
-        .then(() => {
-            res.redirect('/logout');
+        .then(() => { // already handled in the userProducts.ejs file, just for completion purposes
+            const currentUser = req.currentUser; // currentUser needed for id for redirect
+            let currentUserID = currentUser ? currentUser.id : '';
+            res.redirect(`/profile/${currentUserID}/myproducts`);
         }).catch((err) => {
-        res.status(404)
         next(err);
     })
 }
-
-async function toggleBookmark(req, res, next) {
-    try {
-        const productId = req.params.productId;
-        const userId = req.currentUser.id;
-
-        // Check if the product is already bookmarked by the user
-        const isBookmarked = await productModel.isProductBookmarked(userId, productId);
-
-        if (isBookmarked) {
-            // If already bookmarked, remove the bookmark
-            await productModel.removeBookmark(userId, productId);
-        } else {
-            // If not bookmarked, add the bookmark
-            await productModel.addBookmark(userId, productId);
-        }
-
-        res.sendStatus(200);
-    } catch (error) {
-        next(error);
-    }
-}
-
 
 module.exports = {
     getProducts,
     filterProducts,
     getProductByProductID,
     getProductsByUserID,
-    getBookmarkedProducts,
     createProduct,
     editProduct,
     updateProduct,
-    deleteProduct,
-    toggleBookmark
+    deleteProduct
 }
