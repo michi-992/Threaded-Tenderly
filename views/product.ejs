@@ -20,14 +20,14 @@
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 <div class="mb-12">
-    <%- include('components/topNav', { currentPage: '' }) %>
+    <%- include('components/header', { currentPage: '' }) %>
 
     <div class="max-w-5xl mx-auto relative mt-10">
         <%- include('components/goBackButton') %>
     </div>
     <main class="max-w-5xl mx-auto relative pt-4 grid grid-5 gap 6 h-fit-">
         <div class="grid-span-5 flex mb-8">
-            <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>"
+            <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>" title="<%= product.productName %>""
                  class="rounded-xl w-60 object-cover shadow-xl">
             <div class="ml-4 h-fit min-w-full">
                 <div class="font-bold text-5xl"><%= product.productName %></div>
@@ -35,20 +35,20 @@
                 <div class="text-4xl mb-3 text-lime-900"><%= product.price %>€</div>
                 <div class="text-2xl font-semibold">Description</div>
                 <div class="font-medium mb-3"><%= product.description %></div>
-                <div class="flex">
+                <div class="flex gap-4">
                     <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>"
-                       class="bg-teal-700 text-white font-semibold rounded-full py-2 px-8 mt-5 w-fit">Contact
+                       class="bg-teal-700 hover:bg-teal-900 text-white font-semibold rounded-full py-2 px-8 mt-5 w-fit">Contact
                         Seller</a>
                     <% if (currentUser) { %>
                         <% if (product.userID !== currentUser.id) { %>
                             <% if (product.isBookmarked > 0) { %>
-                                <button onclick="toggleBookmark(<%= product.id %>)" class="bg-emerald-100 rounded-full flex mt-5 py-2 px-4">
-                                    <img src="/icons/bookmarkFilled.png" class="h-6" alt="bookmarked">
+                                <button onclick="toggleBookmark(<%= product.id %>)" class="border border-black hover:bg-gray-200 rounded-full flex mt-5 py-2 px-4">
+                                    <img src="/icons/bookmarkFilled.png" class="h-6" alt="">
                                     <p>remove bookmark</p>
                                 </button>
                             <% } else { %>
-                                <button onclick="toggleBookmark(<%= product.id %>)" class="bg-emerald-100 rounded-full flex mt-5 py-2 px-4">
-                                    <img src="/icons/bookmark.png" class="h-6" alt="bookmark">
+                                <button onclick="toggleBookmark(<%= product.id %>)" class="border border-black hover:bg-gray-200 rounded-full flex mt-5 py-2 px-4">
+                                    <img src="/icons/bookmark.png" class="h-6" alt="">
                                     <p>add bookmark</p>
                                 </button>
                             <% } %>
@@ -65,15 +65,22 @@
         <div class="bg-gray-100 rounded-xl p-3 shadow-lg">
             <div class="text-2xl font-semibold">Details</div>
             <ul class="grid grid-cols-3 list-disc mx-5">
-                <li class="font-semibold"><i class="text-gray-600 font-medium">article of
-                        clothing: </i><%= product.article %></li>
-                <li class="font-semibold"><i class="text-gray-600 font-medium">product
-                        craft: </i><%= product.productCraft %></li>
-                <li class="font-semibold"><i class="text-gray-600 font-medium">color: </i><%= product.color %></li>
-                <li class="font-semibold"><i class="text-gray-600 font-medium">sizing: </i><%= product.sizing %>
+                <li class="font-semibold">
+                    <i class="text-gray-600 font-medium">article of clothing: </i>
+                    <%= product.article ? product.article : '/' %></li>
+                <li class="font-semibold">
+                    <i class="text-gray-600 font-medium">productcraft: </i>
+                    <%= product.craft ? product.craft : '/' %></li>
+                <li class="font-semibold">
+                    <i class="text-gray-600 font-medium">color: </i>
+                    <%= product.color ? product.color : '/' %></li>
+                <li class="font-semibold">
+                    <i class="text-gray-600 font-medium">sizing: </i>
+                    <%= product.sizing ? product.sizing : '/' %>
                 </li>
-                <li class="font-semibold"><i class="text-gray-600 font-medium">intended
-                        season: </i><%= product.season %>
+                <li class="font-semibold">
+                    <i class="text-gray-600 font-medium">intended season: </i>
+                    <%= product.season ? product.season : '/' %>
                 </li>
             </ul>
         </div>

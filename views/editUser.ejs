@@ -8,20 +8,25 @@
 
 <body class="flex flex-col justify-between min-h-screen">
 <div class="mb-12">
-    <%- include('components/topNav', { currentPage: "" }) %>
+    <%- include('components/header', { currentPage: "" }) %>
     <main class="relative max-w-3xl mx-auto relative mt-12">
         <%- include('components/goBackButton') %>
         <%- include('components/h1Heading', {heading: 'Edit your profile'} ) %>
 
         <form action="/profile/<%= currentUser.id %>" method="post"
               class="w-full flex flex-col justify-center content-center bg-white px-3 pt-3 rounded-xl shadow-xl">
+
             <div class="grid grid-cols-2 gap-x-4">
-                <%- include('./components/inputLabel', { labelFor: 'name', content: 'First Name'}) %>
-                <%- include('./components/inputLabel', { labelFor: 'surname', content: 'Last Name'}) %>
-                <input type="text" id="name" name="name" required
-                       class="w- border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.name %>">
-                <input type="text" id="surname" name="surname" required
-                       class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.surname %>">
+                <div class="flex flex-col">
+                    <%- include('./components/inputLabel', { labelFor: 'name', content: 'First Name'}) %>
+                    <input type="text" id="name" name="name" required
+                           class="w- border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.name %>">
+                </div>
+                <div class="flex flex-col">
+                    <%- include('./components/inputLabel', { labelFor: 'surname', content: 'Last Name'}) %>
+                    <input type="text" id="surname" name="surname" required
+                           class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.surname %>">
+                </div>
             </div>
 
             <%- include('./components/inputLabel', { labelFor: 'username', content: 'Username'}) %>
@@ -33,12 +38,12 @@
                    class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= user.email %>">
 
 
-            <%- include('./components/inputLabel', { labelFor: 'craft', content: 'Preferred Craft'}) %>
+            <%- include('./components/inputLabel', { labelFor: 'password', content: 'Preferred Craft (optional)'}) %>
             <div class="grid grid-cols-3 mb-2 ml-3">
                 <%- include('./components/radioInput', { name: 'craft', options: ['sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: user.craft }) %>
             </div>
 
-            <%- include('./components/inputLabel', { labelFor: 'incentive', content: 'I want to primarily'}) %>
+            <%- include('./components/inputLabel', { labelFor: 'password', content: 'I want to primarily (optional)'}) %>
             <div class="grid grid-cols-3 mb-2 ml-3">
                 <%- include('./components/radioInput', { name: 'incentive', options: ['buy clothes', 'sell clothes'], selectedValue: user.incentive }) %>
             </div>
@@ -51,7 +56,8 @@
 
             <div class="grid grid-cols-3 mb-4">
                 <button type="submit"
-                        class="col-start-2 bg-teal-700 text-white font-semibold rounded-full py-1 px-3 my-3">
+                        value="save changes"
+                        class="col-start-2 bg-teal-700 hover:bg-teal-900 hover:scale-110 transition-transform duration-200 text-white font-semibold rounded-full py-1 px-3 my-3">
                     Save Changes
                 </button>
             </div>

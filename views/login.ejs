@@ -5,7 +5,7 @@
 </head>
 <body class="min-h-screen bg-gradient-to-b from-emerald-50 to-emerald-200 max-w-3xl m-auto">
 <div class="flex justify-center content-center my-5">
-    <img src="./icons/logo.png" alt="logo" class="h-20">
+    <img src="./icons/logo.png" alt="Logo" class="h-20">
     <h1 class="font-bold text-6xl font-kaushanScript">ThreadedTenderly</h1>
 </div>
 <div class="grid grid-cols-3">
@@ -17,18 +17,18 @@
                 <div class="m-auto mb-2 text-red-500"><%= message %></div>
             <% } %>
 
-            <%- include('./components/inputLabel', { labelFor: 'username', content: 'Username'}) %>
+                <label for="username" class="italic font-semibold ml-3">Username</label>
             <%- include('./components/textInput', { name: 'username', required: 'yes' }) %>
             <%- include('./components/inputLabel', { labelFor: 'password', content: 'Password'}) %>
             <%- include('./components/passwordInput', { name: 'password', required: 'yes' }) %>
 
-            <button type="submit" class="bg-teal-800 text-white rounded-full p-1 mb-3 my-3 font-semibold">Login</button>
+            <button type="submit" value="login" class="bg-teal-700 hover:bg-teal-950 hover:scale-110 transition-transform duration-200 text-white rounded-full p-1 mb-3 my-3 font-semibold">Login</button>
         </form>
     </div>
 </div>
 
 <div class="text-center my-4">
-    <p class="mb-2">Already have an account? <a href="/register" class="underline text-indigo-900">Regitser</a></p>
+    <p class="mb-2">Already have an account? <a href="/register" class="underline text-indigo-900">Register</a></p>
     <a href="/marketplace" class="underline text-indigo-900">Shop now</a>
 </div>
 

@@ -1,9 +1,9 @@
 <% products.forEach(product => { %>
 
-    <div class="shadow-lg bg-white h-full rounded-lg flex flex-col justify-between border-grey-100 border-2">
+    <div class="shadow-lg bg-white h-full rounded-lg flex flex-col justify-between border-grey-100 border-2 hover:scale-105 transition-transform duration-300">
         <div class="mb-3 text-center">
-            <a href="/marketplace/<%= product.id %>" alt="see product <%= product.productName %>">
-                <img src="/uploads/<%= product.picture %>.jpg" alt="<%= product.productName %>"
+            <a href="/marketplace/<%= product.id %>" title="go to product <%= product.productName %>">
+                <img src="/uploads/<%= product.picture %>.jpg" alt="picture for <%= product.productName %>"
                      class="h-40 m-auto rounded-lg mt-2 object-center">
                 <p class="text-lg font-semibold ml-2 mb-1"><%= product.productName %></p>
             </a>
@@ -14,23 +14,37 @@
                 <% if (currentUser) { %>
                     <% if(product.userID !== currentUser.id)  { %>
                         <% if (product.isBookmarked ) { %>
-                            <button onclick="toggleBookmark(<%= product.id %>)"
-                                    class="bookmark-icon bookmarked"
-                                    data-product-id="<%= product.id %>">
+                            <button onclick="toggleBookmark(<%= product.id %>)" title="remove bookmark"
+                                    class="border-2 border-black hover:bg-gray-200 rounded-full px-3 max-w-fit">
                                 <img src="/icons/bookmarkFilled.png" class="h-6" alt="bookmarked">
                             </button>
+                            <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>"
+                               title="send e-mail"
+                               class="border-2 border-black hover:bg-gray-200 rounded-full px-3 max-w-fit">
+                                <img src="/icons/mail.png" class="h-6" alt="send mail">
+                            </a>
                         <% } else { %>
-                            <button onclick="toggleBookmark(<%= product.id %>)" class="bookmark-icon"
-                                    data-product-id="<%= product.id %>">
+                            <button onclick="toggleBookmark(<%= product.id %>)" title="add bookmark"
+                                    class="border-2 border-black hover:bg-gray-200 rounded-full px-3 max-w-fit">
                                 <img src="/icons/bookmark.png" class="h-6" alt="bookmark">
                             </button>
+                                <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>"
+                                   title="send e-mail"
+                                   class="border-2 border-black hover:bg-gray-200 rounded-full px-3 max-w-fit">
+                                    <img src="/icons/mail.png" class="h-6" alt="send mail">
+                                </a>
                         <% } %>
+                    <% } else { %>
+                        <a href="/profile/<%= currentUser.id %>/myproducts"
+                           class="underline">see all my products</a>
                     <% } %>
+                <% } else { %>
+                    <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>"
+                       title="send e-mail"
+                       class="border-2 border-black hover:bg-gray-200 rounded-full px-3 max-w-fit">
+                        <img src="/icons/mail.png" class="h-6" alt="send mail">
+                    </a>
                 <% } %>
-                <a href="mailto:<%= product.email %>?subject=Interest%20In%20<%= product.productName %>"
-                   class="bg-lime-200 text-white rounded-full px-3 font-semibold max-w-fit">
-                    <img src="/icons/mail.png" class="h-6" alt="contact">
-                </a>
             </div>
         </div>
     </div>

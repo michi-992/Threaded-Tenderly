@@ -6,7 +6,7 @@
 
 <body class="flex flex-col justify-between min-h-screen">
 <div class="mb-12">
-    <%- include('components/topNav', { currentPage: "" }) %>
+    <%- include('components/header', { currentPage: "" }) %>
 
     <main class="relative max-w-3xl mx-auto relative mt-12">
         <%- include('components/goBackButton') %>
@@ -21,49 +21,49 @@
                        value="<%= product.productName %>">
             </div>
             <div class="flex flex-col">
-                <%- include('./components/inputLabel', { labelFor: 'article', content: 'Article'}) %>
+                <%- include('./components/inputLabel', { labelFor: 'article', content: 'Article (optional)'}) %>
                 <%- include('./components/selectInput', { name: 'article', options: ['', 'pants', 'top-wear', 'dress', 'skirt', 'one-piece', 'jewellery', 'shoes', 'other'], selectedValue: product.article }) %>
             </div>
-            <div class="col-span-2 flex flex-col">
-                <%- include('./components/inputLabel', { labelFor: 'description', content: 'Description'}) %>
+            <fieldset class="col-span-2 flex flex-col">
+                <%- include('./components/inputLabel', { labelFor: 'description', content: 'Description (optional)'}) %>
                 <input type="text" id="description" name="description"
                        class="w- border-emerald-200 border-4 rounded-full py-1 px-3 mb-2"
                        value="<%= product.description %>">
-            </div>
+            </fieldset>
 
             <div class="flex flex-col">
-                <%- include('./components/inputLabel', { labelFor: 'craft', content: 'Craft'}) %>
+                <%- include('./components/inputLabel', { labelFor: 'craft', content: 'Craft (optional)'}) %>
                 <div class="grid grid-cols-3 mb-2 ml-3">
                     <%- include('./components/radioInput', { name: 'craft', options: ['sewing', 'knitting', 'crocheting', 'embroidery', 'tailoring', 'other'], selectedValue: product.productCraft }) %>
                 </div>
             </div>
 
             <div class="flex flex-col">
-                <%- include('./components/inputLabel', { labelFor: 'season', content: 'Season'}) %>
+                <%- include('./components/inputLabel', { labelFor: 'season', content: 'Season (optional)'}) %>
                 <div class="grid grid-cols-3 mb-2 ml-3">
                     <%- include('./components/radioInput', { name: 'season', options: ['winter', 'summer', 'autumn', 'spring'], selectedValue: product.season }) %>
                 </div>
             </div>
 
             <div class="flex flex-col">
-                <%- include('./components/inputLabel', { labelFor: 'color', content: 'Color'}) %>
+                <%- include('./components/inputLabel', { labelFor: 'color', content: 'Color (optional)'}) %>
                 <%- include('./components/selectInput', { name: 'color', options: ['', 'red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'beige', 'black', 'white', 'gray', 'other'], selectedValue: product.color }) %>
             </div>
 
             <div class="flex flex-col">
-                <%- include('./components/inputLabel', { labelFor: 'material', content: 'Material'}) %>
+                <%- include('./components/inputLabel', { labelFor: 'material', content: 'Material (optional)'}) %>
                 <%- include('./components/selectInput', { name: 'material', options: ['', 'cotton', 'polyester', 'silk', 'wool', 'skirt', 'denim', 'rayon', 'linen', 'nylon', 'spandex', 'leather', 'other'], selectedValue: product.material }) %>
             </div>
 
 
             <div class="flex flex-col">
-                <%- include('./components/inputLabel', { labelFor: 'sizing', content: 'Sizing'}) %>
+                <%- include('./components/inputLabel', { labelFor: 'sizing', content: 'Sizing (optional)'}) %>
                 <input type="text" id="sizing" name="sizing"
                        class="w- border-emerald-200 border-4 rounded-full py-1 px-3 mb-2" value="<%= product.sizing %>">
             </div>
 
-            <div class="flex flex-col">
-                <%- include('./components/inputLabel', { labelFor: 'price', content: 'Price'}) %>
+            <fieldset class="flex flex-col">
+                <legend><%- include('./components/inputLabel', { labelFor: 'price', content: 'Price (optional)'}) %></legend>
                 <div class="border-emerald-200 border-4 rounded-full py-1 px-3 mb-4">
                     <label for="priceBeforeDec" class="italic font-semibold ml-3" hidden></label>
                     <input type="number" id="priceBeforeDec" name="priceBeforeDec" min="0"
@@ -76,7 +76,7 @@
                            value="<%= product.digitsAfterDecimal %>">
                     €
                 </div>
-            </div>
+            </fieldset>
 
             <div class="flex flex-col col-span-2 mx-auto">
                 <%- include('./components/inputLabel', { labelFor: 'picture', content: 'Picture'}) %>
@@ -84,9 +84,9 @@
             </div>
 
 
-            <button type="submit"
-                    class="object-center col-span-2 mx-auto bg-teal-700 text-white font-semibold rounded-full w-fit py-1 px-5 my-3">
-                Submit Changes
+            <button type="submit" value="save changes"
+                    class="object-center col-span-2 mx-auto bg-teal-700 hover:bg-teal-900 hover:scale-110 transition-transform duration-200 text-white font-semibold rounded-full w-fit py-1 px-5 my-3">
+                Save Changes
             </button>
         </form>
     </main>

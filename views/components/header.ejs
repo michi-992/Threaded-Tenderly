@@ -1,5 +1,6 @@
 <div class="bg-emerald-100 w-full h-60 absolute top-14 z-0"></div>
-<header class="relative flex gap-6 justify-between">
+
+<header class="relative flex gap-6 justify-between px-6 bg-white">
     <a href="/marketplace" class="w-44 flex content-center my-auto">
         <img src="/icons/logo.png" alt="logo" class="h-8">
         <div class="font-kaushanScript text-lg">Threaded Tenderly</div>
@@ -33,19 +34,19 @@
         <% if (currentUser) { %>
             <div class="flex shrink-0 gap-2">
                 <button onclick="goToLogout()"
-                        class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3">
+                        class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3 hover:bg-teal-950 hover:scale-110 transition-transform duration-200">
                     Logout
                 </button>
-                <a href="/profile/<%= currentUser.id %>" class="w-fit">
+                <a href="/profile/<%= currentUser.id %>" class="w-fit" title="go to profile">
                     <img src="/icons/profile.png" alt="profile" class="h-8 w-8">
                 </a>
             </div>
         <% } else { %>
             <div class="flex gap-x-2">
-                <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3" onclick="goToLogin()">
+                <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3 hover:bg-teal-950 hover:scale-110 transition-transform duration-200" onclick="goToLogin()">
                     Login
                 </button>
-                <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3" onclick="goToRegister()">
+                <button class="bg-teal-800 text-white font-semibold rounded-full py-1 px-3 hover:bg-teal-950 hover:scale-110 transition-transform duration-200" onclick="goToRegister()">
                     Register
                 </button>
             </div>

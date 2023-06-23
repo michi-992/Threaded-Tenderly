@@ -63,7 +63,7 @@ async function createUser(req, res, next) {
         });
 
         if(user) {
-            const message = 'This username is already taken'
+            const message = 'This username is already taken.'
             res.render('register', { message })
         } else {
             if(userData.craft === undefined) {
@@ -77,7 +77,6 @@ async function createUser(req, res, next) {
             res.redirect('/login');
         }
     } catch (error) {
-        console.log(error);
         next(error);
     }
 }

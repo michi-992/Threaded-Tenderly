@@ -16,7 +16,7 @@
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 <div class="mb-12">
-    <%- include('components/topNav', { currentPage: "" }) %>
+    <%- include('components/header', { currentPage: "" }) %>
 
     <main class="max-w-3xl mx-auto relative mt-12">
         <%- include('components/h1Heading', {heading: 'My Profile'} ) %>
@@ -52,8 +52,8 @@
             </div>
             <div>
                 <a href="/profile/<%= user.id %>/edit"
-                   class="bg-teal-700 text-white font-semibold rounded-full py-2 px-8 mt-5 w-32 mr-4">Edit</a>
-                <button class="bg-red-900 text-white rounded-full py-2 px-5 mb-3 font-semibold w-32"
+                   class="bg-teal-700 hover:bg-teal-900 text-white font-semibold rounded-full py-2 px-8 mt-5 w-32 mr-4">Edit</a>
+                <button class="bg-red-900 hover:bg-red-700 text-white rounded-full py-2 px-5 mb-3 font-semibold w-32"
                         onClick="deleteUserRequest()">Delete
                 </button>
             </div>

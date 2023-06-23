@@ -11,7 +11,6 @@ async function getProducts(req, res, next) {
 
         res.render('marketplace', {products, currentUser, article });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 }
@@ -41,13 +40,11 @@ async function getProductByProductID(req, res, next) {
         if(currentUser) {
             currentUserID = currentUser.id;
         }
-        console.log(currentUserID)
 
         const productID = req.params.productID
         const product = await productModel.getProductByProductID(productID, currentUserID);
         res.render('product', {product, currentUser})
     } catch (error) {
-        console.log(error);
         res.status(404)
         next(err);
     }
@@ -59,6 +56,7 @@ async function getProductsByUserID(req, res, next) {
         const products = await productModel.getProductsByUserID(currentUser.id);
         res.render('userProducts', {currentUser, products});
     } catch (err) {
+        console.log(err);
         next(err);
     }
 }
@@ -74,15 +72,13 @@ async function createProduct(req, res, next) {
         if(productData.season === undefined) {
             productData.season = '';
         }
-        console.log(productData);
 
         const currentUser = req.currentUser;
         await productModel.createProduct(productData, pictureData, currentUser);
         res.redirect(`/profile/${userID}/myproducts`);
     } catch (error) {
-        console.log(error)
-        res.status(404)
-        next(err);
+        console.log(error);
+        next(error);
     }
 }
 

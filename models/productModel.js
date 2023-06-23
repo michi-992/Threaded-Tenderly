@@ -74,7 +74,6 @@ let getBookmarkedProducts = (userID) => new Promise((resolve, reject) => {
         if (err) {
             reject(err);
         } else {
-            console.log(products);
             resolve(products);
         }
     });
@@ -122,7 +121,6 @@ let createProduct = (productData, pictureData, currentUser) => new Promise(async
 
     db.query(sql, function (err, result, fields) {
         if (err) {
-            console.log(err);
             reject(err);
         }
         resolve(result);
@@ -160,7 +158,6 @@ let updateProduct = (productData, productID, pictureData) => new Promise(async (
 
     db.query(sql, function (err, result, fields) {
         if (err) {
-            console.log(err);
             reject(err);
         }
         resolve(productData);
@@ -192,7 +189,6 @@ let isProductBookmarked = (userId, productId) => new Promise((resolve, reject) =
         if (err) {
             reject(err);
         } else {
-            console.log(results);
             resolve(results[0].count > 0);
         }
     });

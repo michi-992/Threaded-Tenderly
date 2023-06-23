@@ -23,30 +23,26 @@ let getUserByID = (userID) => new Promise((resolve, reject) => {
 
 
 let createUser = (userData) => new Promise(async (resolve, reject) => {
-    try {
-        userData.password = await bcrypt.hash(userData.password, 10);
-        const sql = "INSERT INTO ccl2_users SET " +
-            "name = " + db.escape(userData.name) +
-            ", surname = " + db.escape(userData.surname) +
-            ", username = " + db.escape(userData.username) +
-            ", email = " + db.escape(userData.email) +
-            ", craft = " + db.escape(userData.craft) +
-            ", incentive = " + db.escape(userData.incentive) +
-            ", password = " + db.escape(userData.password);
+
+    userData.password = await bcrypt.hash(userData.password, 10);
+    const sql = "INSERT INTO ccl2_users SET " +
+        "name = " + db.escape(userData.name) +
+        ", surname = " + db.escape(userData.surname) +
+        ", username = " + db.escape(userData.username) +
+        ", email = " + db.escape(userData.email) +
+        ", craft = " + db.escape(userData.craft) +
+        ", incentive = " + db.escape(userData.incentive) +
+        ", password = " + db.escape(userData.password);
 
 
-        db.query(sql, function (err, result, fields) {
-            if (err) {
-                console.log(error)
-                reject(err);
-            }
-            const userId = result.insertId;
-            userData.id = userId;
-            resolve(userData);
-        })
-    } catch (error) {
-        console.log(error)
-    }
+    db.query(sql, function (err, result, fields) {
+        if (err) {
+            reject(err);
+        }
+        const userId = result.insertId;
+        userData.id = userId;
+        resolve(userData);
+    })
 })
 
 let updateUser = (userData, id) => new Promise(async (resolve, reject) => {
@@ -67,7 +63,6 @@ let updateUser = (userData, id) => new Promise(async (resolve, reject) => {
 
     db.query(sql, function (err, result, fields) {
         if (err) {
-            console.log(err);
             reject(err);
         }
         resolve(userData);
@@ -75,7 +70,7 @@ let updateUser = (userData, id) => new Promise(async (resolve, reject) => {
 })
 
 let deleteUser = (id) => new Promise((resolve, reject) => {
-    db.query('SELECT picture FROM ccl2_products WHERE userID=?', [id], function(err, pictures) {
+    db.query('SELECT picture FROM ccl2_products WHERE userID=?', [id], function (err, pictures) {
         if (err) {
             reject(err)
         }

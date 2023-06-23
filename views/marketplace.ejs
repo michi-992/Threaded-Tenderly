@@ -37,18 +37,18 @@
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 <div class="mb-12">
-    <%- include('components/topNav', { currentPage: 'marketplace' }) %>
+    <%- include('components/header', { currentPage: 'marketplace' }) %>
 
     <main>
         <div class="mb-10" aria-hidden="true">
             <div class="max-w-5xl grid grid-cols-10 gap-6 mx-auto relative h-80 pt-10">
                 <div class="col-span-8 col-start-2 relative">
-                    <img src="./contentPictures/threadsCloseUp.png" alt=""
+                    <img src="./contentPictures/threadsCloseUp.png" alt="" aria-hidden="true"
                          class="w-8/12 h-full absolute z-1 rounded-l-lg">
-                    <img src="./contentPictures/SlideShowForm.png" alt=""
+                    <img src="./contentPictures/SlideShowForm.png" alt="" aria-hidden="true"
                          class="w-7/12 h-full absolute right-0 z-10 rounded-r-lg">
                     <div class="absolute right-8 top-14 z-20 text-right">
-                        <p class="text-4xl font-kaushanScript">Welcome</p>
+                        <h1 class="text-4xl font-kaushanScript">Welcome</h1>
                         <% if (currentUser) { %>
                             <p class="text-5xl font-kaushanScript"><%= currentUser.username %></p>
                         <% } %>
@@ -61,11 +61,11 @@
             </div>
         </div>
 
-        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-9 gap-6 mb-6">
+        <div class="max-w-5xl mx-auto grid grid-cols-9 gap-6 mb-6">
             <%- include('components/filterButton', { options: ['', 'top-wear', 'pants', 'dress', 'skirt', 'one-piece', 'jewellery', 'shoes', 'other'] } ) %>
         </div>
 
-        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div class="max-w-5xl mx-auto grid grid-cols-5 gap-6">
             <%- include('components/productListing') %>
         </div>
     </main>
